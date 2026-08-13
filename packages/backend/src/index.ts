@@ -3,6 +3,7 @@ import cors from "cors";
 import { env } from "./config/env";
 import { prisma } from "./lib/prisma";
 import { setsRouter } from "./features/sets/sets.routes";
+import { packsRouter } from "./features/packs/packs.routes";
 
 const app = express();
 
@@ -15,6 +16,8 @@ app.use(
 app.use(express.json());
 
 app.use("/api/v1/sets", setsRouter);
+app.use("/api/v1", packsRouter)
+
 
 app.get("/api/health", async (_req, res) => {
   try {
