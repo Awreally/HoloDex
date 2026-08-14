@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "../components/layout/RootLayout";
 import { SetsPage } from "../pages/SetsPage";
+import { OpenPackPage } from "../pages/OpenPackPage";
 
 export const router = createBrowserRouter([
 {
@@ -11,6 +12,10 @@ export const router = createBrowserRouter([
         {
             index: true,
             element: <SetsPage />
+        },
+        {
+            path: "packs",
+            element: <OpenPackPage />
         }
     ]
 }

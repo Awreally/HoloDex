@@ -1,28 +1,29 @@
 import type { Card } from "./packs.types";
 
-function getRandomCards(cards: Card[], rarity: string, amount: number) {
-  const filteredCards = cards.filter((card) => card.rarity === rarity);
-  const selectedCards: Card[] = [];
-
-  const drawCount = Math.min(amount, filteredCards.length);
+function pickRandom(pool: Card[], amount: number): Card[] {
+  const available = [...pool];
+  const selected: Card[] = [];
+  const drawCount = Math.min(amount, available.length);
 
   for (let i = 0; i < drawCount; i++) {
-    const randomIndex = Math.floor(Math.random() * filteredCards.length);
-    const randomCard = filteredCards.splice(randomIndex, 1)[0];
-    selectedCards.push(randomCard);
+    const randomIndex = Math.floor(Math.random() * available.length);
+    selected.push(available.splice(randomIndex, 1)[0]);
   }
-
-  return selectedCards;
+  return selected;
 }
 
-export function openPack(cards: Card[]) {
-  const pack: Card[] = [];
+export function openPack(cards: Card[]): Card[] {
+  const energy = cards.filter((c) => c.rarity === "Common" && c.name.includes("Energy"));
+  const commons = cards.filter(
+    (c) => c.rarity === "Common" && !c.name.includes("Energy"),
+  );
+  const uncommons = cards.filter((c) => c.rarity === "Uncommon");
+  const rares = cards.filter((c) => c.rarity === "Rare");
 
-  const commons = getRandomCards(cards, "Common", 6);
-  const uncommons = getRandomCards(cards, "Uncommon", 3);
-  const rares = getRandomCards(cards, "Rare", 1);
-
-  pack.push(...commons, ...uncommons, ...rares);
-
-  return pack;
+  return [
+    ...pickRandom(energy, 2),
+    ...pickRandom(commons, 5),
+    ...pickRandom(uncommons, 3),
+    ...pickRandom(rares, 1),
+  ];
 }
