@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
 import clsx from "clsx";
-import type { NavLinkItem } from "./sideNavConfig";
+import type { NavLinkItem } from "./navigation.config";
 
 export const SideNavItem = ({ to, label, end }: NavLinkItem) => (
   <li >

@@ -1,4 +1,4 @@
-import { navLinks } from "./sideNavConfig";
+import { navLinks } from "./navigation.config";
 import { SideNavItem } from "./SideNavItem";
 
 export function SideNavbar() {
