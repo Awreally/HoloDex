@@ -7,10 +7,15 @@ export default function RootLayout() {
   return (
     <div>
       <TopNavBar />
-      <SideNavbar />
-      <main>
-        <Outlet />
-      </main>
+
+      <div className="flex">
+        <SideNavbar />
+
+        <main className="min-w-0 flex-1">
+          <Outlet />
+        </main>
+      </div>
+
       <Footer />
     </div>
   );
