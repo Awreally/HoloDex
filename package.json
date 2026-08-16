@@ -11,5 +11,10 @@
   },
   "devDependencies": {
     "concurrently": "^10.0.4"
+  },
+  "allowScripts": {
+    "@prisma/engines@7.9.1": true,
+    "esbuild@0.28.1": true,
+    "prisma@7.9.1": true
   }
 }
