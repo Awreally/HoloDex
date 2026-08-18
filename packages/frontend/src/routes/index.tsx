@@ -16,7 +16,7 @@ export const router = createBrowserRouter([
             element: <DashBoardPage />
         },
         {
-            path: "packs",
+            path: "packs/:setId",
             element: <OpenPackPage />
         },
         {

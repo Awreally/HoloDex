@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiFetch } from "../lib/api";
 import { setLogoUrl } from "../lib/images";
+import { Link } from "react-router";
 
 type SetSummary = {
   id: string;
@@ -26,7 +27,11 @@ export function SetsPage() {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {sets.map((set) => (
-        <div key={set.id} className="rounded-lg border p-4">
+        <Link
+          to={`/packs/${set.id}`}
+          key={set.id}
+          className="block rounded-lg border p-4"
+        >
           {set.logoUrl ? (
             <img src={setLogoUrl(set.logoUrl)} alt={set.name} />
           ) : (
@@ -35,7 +40,7 @@ export function SetsPage() {
             </div>
           )}
           <p>{set.name}</p>
-        </div>
+        </Link>
       ))}
     </div>
   );
