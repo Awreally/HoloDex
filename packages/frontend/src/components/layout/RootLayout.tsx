@@ -11,7 +11,7 @@ export default function RootLayout() {
       <div className="flex">
         <SideNavbar />
 
-        <main className="min-w-0 flex-1">
+        <main className="flex-1 flex-col flex items-center justify-center">
           <Outlet />
         </main>
       </div>

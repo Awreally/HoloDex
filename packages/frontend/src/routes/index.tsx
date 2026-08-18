@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router";
 import RootLayout from "../components/layout/RootLayout";
 import { SetsPage } from "../pages/SetsPage";
-import { OpenPackPage } from "../pages/OpenPackPage";
+import { OpenPackPage } from "../features/packs/pages/OpenPackPage";
 import { DashBoardPage } from "../pages/DashBoardPage";
 import CollectionPage from "../pages/CollectionPage";
 
