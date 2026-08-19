@@ -37,6 +37,10 @@ model Card {
   rarity     String
   imageSmall String?
   imageLarge String?
+  category   String?    
+  normal     Boolean    @default(false)
+  reverse    Boolean    @default(false)
+  holo       Boolean    @default(false)
   owners     UserCard[]
 }
 

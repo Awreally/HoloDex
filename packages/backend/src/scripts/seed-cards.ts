@@ -1,6 +1,6 @@
 import { prisma } from "../lib/prisma";
 
-const SET_IDS = ["sve"];
+const SET_IDS = ["base1", "base2", "sv03.5"];
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -17,6 +17,14 @@ type FullCard = {
   localId?: string;
   rarity?: string;
   image?: string;
+  category?: string;
+  variants?: {
+    normal?: boolean;
+    reverse?: boolean;
+    holo?: boolean;
+    firstEdition?: boolean;
+    wPromo?: boolean;
+  };
 };
 
 async function seedCardsForSet(setId: string) {
@@ -26,14 +34,18 @@ async function seedCardsForSet(setId: string) {
   }
   const set = await setRes.json();
   const briefCards: BriefCard[] = set.cards ?? [];
-  console.log(`\nSet "${set.name}" (${setId}) has ${briefCards.length} cards. Fetching details...`);
+  console.log(
+    `\nSet "${set.name}" (${setId}) has ${briefCards.length} cards. Fetching details...`,
+  );
 
   let seeded = 0;
   let skipped = 0;
 
   for (const brief of briefCards) {
     try {
-      const cardRes = await fetch(`https://api.tcgdex.net/v2/en/cards/${brief.id}`);
+      const cardRes = await fetch(
+        `https://api.tcgdex.net/v2/en/cards/${brief.id}`,
+      );
       if (!cardRes.ok) {
         console.warn(`  skip ${brief.id}: fetch failed (${cardRes.status})`);
         skipped++;
@@ -57,6 +69,10 @@ async function seedCardsForSet(setId: string) {
           imageSmall: card.image ?? null,
           imageLarge: card.image ?? null,
           setId,
+          category: card.category ?? null,
+          normal: card.variants?.normal ?? false,
+          reverse: card.variants?.reverse ?? false,
+          holo: card.variants?.holo ?? false,
         },
         create: {
           id: card.id,
@@ -66,6 +82,10 @@ async function seedCardsForSet(setId: string) {
           imageSmall: card.image ?? null,
           imageLarge: card.image ?? null,
           setId,
+          category: card.category ?? null,
+          normal: card.variants?.normal ?? false,
+          reverse: card.variants?.reverse ?? false,
+          holo: card.variants?.holo ?? false,
         },
       });
 
