@@ -1,4 +1,5 @@
 import type { Card } from "./packs.types";
+import { PackRecipe } from "./packs.types";
 
 function pickRandom(pool: Card[], amount: number): Card[] {
   const available = [...pool];
@@ -12,18 +13,26 @@ function pickRandom(pool: Card[], amount: number): Card[] {
   return selected;
 }
 
-export function openPack(cards: Card[]): Card[] {
-  const energy = cards.filter((c) => c.rarity === "Common" && c.name.includes("Energy"));
-  const commons = cards.filter(
-    (c) => c.rarity === "Common" && !c.name.includes("Energy"),
-  );
-  const uncommons = cards.filter((c) => c.rarity === "Uncommon");
-  const rares = cards.filter((c) => c.rarity === "Rare");
+export function openPack(cards: Card[], recipe: PackRecipe): Card[] {
+  const pack: Card[] = [];
 
-  return [
-    ...pickRandom(energy, 2),
-    ...pickRandom(commons, 5),
-    ...pickRandom(uncommons, 3),
-    ...pickRandom(rares, 1),
-  ];
+  for (const slot of recipe) {
+    const remaining = cards.filter((c) => !pack.some((p) => p.id === c.id));
+
+    let pool: Card[];
+    if (slot.kind === "energy") {
+      pool = remaining.filter(
+        (c) => c.rarity === "Common" && c.name.includes("Energy"),
+      );
+    } else {
+      const rarity = slot.kind === "roll" ? slot.roll() : slot.rarity;
+      pool = remaining.filter(
+        (c) => c.rarity === rarity && !c.name.includes("Energy"),
+      );
+    }
+
+    pack.push(...pickRandom(pool, slot.amount));
+  }
+
+  return pack;
 }

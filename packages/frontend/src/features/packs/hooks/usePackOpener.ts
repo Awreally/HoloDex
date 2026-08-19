@@ -25,12 +25,13 @@ export function usePackOpener(
       setIsLoading(false);
     }
   };
-
+  
   const next = () => {
     if (index + 1 >= cards.length) {
       setStage("done");
       onComplete?.(cards);
     } else {
+      console.log(cards)  
       setIndex((i) => i + 1);
     }
   };

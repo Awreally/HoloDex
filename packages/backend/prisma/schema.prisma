@@ -24,6 +24,7 @@ model Set {
   total       Int
   releaseDate DateTime?
   logoUrl     String?
+  playable    Boolean  @default(false)
   cards       Card[]
 }
 
