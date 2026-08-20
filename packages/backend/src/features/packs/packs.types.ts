@@ -5,7 +5,7 @@ export type Card = {
   holo: boolean;
   normal: boolean;
   reverse: boolean;
-  category: string;
+  category: string | null;
 };
 
 export type Variant = "normal" | "reverse" | "holo";

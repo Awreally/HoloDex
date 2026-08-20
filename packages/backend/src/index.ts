@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { env } from "./config/env";
 import { prisma } from "./lib/prisma";
 import { setsRouter } from "./features/sets/sets.routes";
@@ -7,6 +8,7 @@ import { packsRouter } from "./features/packs/packs.routes";
 
 const app = express();
 
+app.use(cookieParser());
 app.use(
   cors({
     origin: env.FRONTEND_URL,
