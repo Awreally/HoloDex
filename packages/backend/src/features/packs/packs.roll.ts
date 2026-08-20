@@ -1,5 +1,10 @@
-import type { Card } from "./packs.types";
-import { PackRecipe } from "./packs.types";
+import type { Card, Variant, RollResult, PackRecipe, PulledCard} from "./packs.types";
+
+function cardHasVariant(card: Card, variant: Variant): boolean {
+  if (variant === "normal") return card.normal;
+  if (variant === "reverse") return card.reverse;
+  return card.holo;
+}
 
 function pickRandom(pool: Card[], amount: number): Card[] {
   const available = [...pool];
@@ -13,25 +18,16 @@ function pickRandom(pool: Card[], amount: number): Card[] {
   return selected;
 }
 
-export function openPack(cards: Card[], recipe: PackRecipe): Card[] {
-  const pack: Card[] = [];
+export function openPack(cards: Card[], recipe: PackRecipe): PulledCard[] {
+  const pack: PulledCard[] = [];
 
   for (const slot of recipe) {
-    const remaining = cards.filter((c) => !pack.some((p) => p.id === c.id));
-
-    let pool: Card[];
-    if (slot.kind === "energy") {
-      pool = remaining.filter(
-        (c) => c.rarity === "Common" && c.name.includes("Energy"),
+    if (slot.kind === "fixed") {
+      const pool = cards.filter(
+        (card) => card.rarity === slot.rarity && cardHasVariant(card, slot.variant)
       );
-    } else {
-      const rarity = slot.kind === "roll" ? slot.roll() : slot.rarity;
-      pool = remaining.filter(
-        (c) => c.rarity === rarity && !c.name.includes("Energy"),
-      );
+      const drawn = pickRandom(pool, slot.amount);
     }
-
-    pack.push(...pickRandom(pool, slot.amount));
   }
 
   return pack;

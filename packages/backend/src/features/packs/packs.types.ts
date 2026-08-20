@@ -2,13 +2,39 @@ export type Card = {
   id: string;
   name: string;
   rarity: string;
+  holo: boolean;
+  normal: boolean;
+  reverse: boolean;
 };
 
+export type Variant = "normal" | "reverse" | "holo";
+
 export type Slot =
-  | { kind: "fixed"; rarity: string; amount: number }
-  | { kind: "energy"; amount: number }
-  | { kind: "roll"; roll: () => string; amount: number };
+  | {
+      kind: "fixed";
+      rarity: string;
+      variant: Variant;
+      amount: number;
+    }
+  | {
+      kind: "energy";
+      amount: number;
+    }
+  | {
+      kind: "roll";
+      roll: () => RollResult;
+      amount: number;
+    };
 
 export type PackRecipe = Slot[];
 
-export type Weighted = { rarity: string; weight: number };
+export type Weighted = { rarity: string; variant: Variant; weight: number };
+
+export type PulledCard = Card & {
+  pulledVariant: Variant;
+};
+
+export type RollResult = {
+  rarity: string;
+  variant: Variant;
+};
