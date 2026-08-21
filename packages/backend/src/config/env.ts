@@ -19,12 +19,11 @@ const getRequiredEnv = (name: string): string => {
   return value;
 };
 
-
-
 export const env = {
   PORT: parsePort(process.env.PORT),
   NODE_ENV: process.env.NODE_ENV?.trim() || "development",
   FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173",
+  DATABASE_URL: getRequiredEnv("DATABASE_URL"),
   JWT_SECRET: getRequiredEnv("JWT_SECRET"),
   JWT_EXPIRES_IN: (process.env.JWT_EXPIRES_IN ?? "7d") as SignOptions["expiresIn"],
 };
