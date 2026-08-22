@@ -19,24 +19,31 @@ export default function TextInput({
   const [revealed, setRevealed] = useState<boolean>(false);
 
   return (
-    <div>
+    <div className="flex flex-col gap-1.5">
       {label && (
-        <label className="" htmlFor={inputId}>
+        <label
+          className={`text-label-sm uppercase ${
+            error ? "text-error" : "text-on-surface-variant"
+          }`}
+          htmlFor={inputId}
+        >
           {label}
         </label>
       )}
-      <div className="">
+      <div className="relative">
         <input
           {...inputProps}
           id={inputId}
           name={name}
           type={isPassword ? (revealed ? "text" : "password") : type}
-          className=""
+          className={`w-full rounded border-[1.5px] bg-background px-4 py-3 text-sm text-on-background transition-colors outline-none placeholder:text-outline focus:border-primary focus:bg-surface-container-lowest ${
+            error ? "border-error" : "border-outline-variant"
+          } ${isPassword ? "pr-11" : ""} ${className}`}
         />
         {isPassword && (
           <button
             type="button"
-            className=""
+            className="absolute top-1/2 right-3.5 flex -translate-y-1/2 items-center text-on-surface-variant"
             onClick={() => setRevealed((v) => !v)}
             aria-label={revealed ? "Hide password" : "Show password"}
           >
@@ -73,6 +80,7 @@ export default function TextInput({
           </button>
         )}
       </div>
+      {error && <p className="text-xs text-error">{error}</p>}
     </div>
   );
 }
