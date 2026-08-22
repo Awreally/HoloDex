@@ -24,4 +24,4 @@ export type UserResponse = {
   lastname: string;
   role: string;
   createdAt: string;
-};
+}; 
