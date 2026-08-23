@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../errors/AppError";
 import { env } from "../../config/env";
-import { LoginInput } from "./auth.types";
 
 export async function registerUser(data: {
   email: string;
@@ -65,4 +64,8 @@ export async function loginUser(data: { email: string; password: string;}) {
     token,
     user,
   };
+}
+
+export async function getUserById(userId: string) {
+  return prisma.user.findUnique({ where: { id: userId} });
 }

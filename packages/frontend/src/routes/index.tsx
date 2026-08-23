@@ -5,6 +5,7 @@ import { OpenPackPage } from "../features/packs/pages/OpenPackPage";
 import { DashBoardPage } from "../pages/DashBoardPage";
 import Authpage from "../features/auth/pages/AuthPage";
 import CollectionPage from "../pages/CollectionPage";
+import { ProtectedRoute } from "../components/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "packs/:setId",
-        element: <OpenPackPage />,
+        element: <ProtectedRoute><OpenPackPage /></ProtectedRoute>,
       },
       {
         path: "sets",

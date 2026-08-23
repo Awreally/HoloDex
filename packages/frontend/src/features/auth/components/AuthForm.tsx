@@ -4,6 +4,7 @@ import { useLogin } from "../hooks/auth.hooks";
 import { useRegister } from "../hooks/auth.hooks";
 import TextInput from "../../../components/layout/ui/input/TextInput";
 import { TabsAuth } from "./TabsAuth";
+import { useAuth } from "../../../context/AuthContext";
 
 export function AuthForm() {
   const [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ export function AuthForm() {
   const [active, setActive] = useState<"signin" | "register">("signin");
   const isSignin = active === "signin";
   const navigate = useNavigate();
-
+  const { setUser } = useAuth();
   const { login, isLoading: isLoginLoading, error: loginError } = useLogin();
   const {
     register,
@@ -32,6 +33,7 @@ export function AuthForm() {
       const user = await login({ email, password });
 
       if (user) {
+        setUser(user)
         navigate("/");
       }
 
@@ -47,6 +49,7 @@ export function AuthForm() {
     });
 
     if (user) {
+      setUser(user)
       navigate("/");
     }
   }

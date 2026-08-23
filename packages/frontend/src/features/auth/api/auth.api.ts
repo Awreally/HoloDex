@@ -25,3 +25,11 @@ export async function fetchLoginUser(input: LoginInput): Promise<UserResponse> {
   );
   return res.data;
 }
+
+export async function fetchMe() : Promise<UserResponse> {
+  const res = await apiFetch<ApiSuccess<UserResponse>>(
+    "/auth/me",
+    
+  );
+  return res.data;
+}

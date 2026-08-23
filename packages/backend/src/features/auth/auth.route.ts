@@ -1,9 +1,12 @@
 import { Router } from "express";
-import { registerUserHandler, loginUserHandler } from "./auth.controller";
+import { registerUserHandler, loginUserHandler, getMeHandler } from "./auth.controller";
+import { requireAuth } from "../../middleware/requireAuth";
 
 export const authRouter = Router();
 
+authRouter.get("/me", requireAuth, getMeHandler);
 authRouter.post("/register", registerUserHandler);
 authRouter.post("/login", loginUserHandler);
+
 
 

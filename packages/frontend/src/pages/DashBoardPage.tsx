@@ -1,3 +1,7 @@
+import { useAuth } from "../context/AuthContext"
+
+
 export function DashBoardPage() {
-    return <h1>Dash Board</h1>
+    const { user } = useAuth();
+    return <h1>{user?.username}</h1>
 }
