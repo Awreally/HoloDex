@@ -1,10 +1,10 @@
-import { useLogout } from "../hooks/useLogout";
+import { useLogout } from "../hooks/auth.hooks";
 
 export function LogoutButton() {
-    const { error, handleLogout, isLoggingOut } = useLogout();
+    const { handleLogout, isLoggingOut } = useLogout();
     return (
         <button onClick={handleLogout} disabled={isLoggingOut}>
-             {isLoggingOut ? "Logging out..." : "Logout"}
+             Logout
         </button>
     );
 }

@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { LoginInput, RegisterInput } from "../types/auth.types";
-import { fetchLoginUser, fetchRegisterUser } from "../api/auth.api";
+import { fetchLoginUser, fetchRegisterUser, fetchLogoutUser } from "../api/auth.api";
+import { useAuth } from "../../../context/AuthContext";
 
 export function useLogin() {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,4 +45,28 @@ export function useRegister() {
     }
   }
   return { isLoading, error, register};
+}
+
+export function useLogout() {
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    setIsLoggingOut(true);
+    try {
+      await fetchLogoutUser();
+      setUser(null);
+      navigate("login");
+    } catch (err) {
+    } finally {
+        setIsLoggingOut(false);
+    }
+  }
+
+  return {
+    isLoggingOut,
+    handleLogout,
+  }
 }

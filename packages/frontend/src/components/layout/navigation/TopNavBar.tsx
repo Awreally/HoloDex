@@ -1,4 +1,6 @@
 import { Link } from "react-router";
+import { LogoutButton } from "../../../features/auth/components/LogoutButton";
+import { SignedIn, SignedOut } from "../../../features/auth/components/AuthGate";
 
 export default function TopNavBar() {
   return (
@@ -53,13 +55,16 @@ export default function TopNavBar() {
                 account_balance_wallet
               </span>
             </button>
-            <Link
+            <SignedOut>
+              <Link
               to="login"
               aria-label="Login"
               className="rounded-full p-2 text-on-surface-variant transition hover:bg-surface-container-low hover:text-primary active:scale-90"
-            >
+              >
               <span className="material-symbols-outlined">person</span>
             </Link>
+              </SignedOut>
+            <SignedIn><LogoutButton /></SignedIn>
           </div>
         </div>
       </div>
