@@ -5,6 +5,8 @@ export default function CollectionPage() {
   const { collection, isLoading, error } = useCollection();
   if (isLoading) return <p>Loading ...</p>;
   if (error) return <p>{error}</p>;
+  if (collection.length === 0)
+    return <p>No cards yet — open a pack to get started!</p>;
 
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
