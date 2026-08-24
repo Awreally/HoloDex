@@ -3,6 +3,7 @@ import RootLayout from "../components/layout/RootLayout";
 import { SetsPage } from "../pages/SetsPage";
 import { OpenPackPage } from "../features/packs/pages/OpenPackPage";
 import { DashBoardPage } from "../pages/DashBoardPage";
+import { TradePage } from "../pages/TradePage";
 import Authpage from "../features/auth/pages/AuthPage";
 import CollectionPage from "../features/collection/pages/CollectionPage";
 import { ProtectedRoute } from "../components/ProtectedRoute";
@@ -31,6 +32,10 @@ export const router = createBrowserRouter([
       {
         path: "collection",
         element: <CollectionPage />,
+      },
+      {
+        path: "trade",
+        element: <TradePage />,
       },
     ],
   },
