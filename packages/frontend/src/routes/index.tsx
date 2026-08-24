@@ -4,7 +4,7 @@ import { SetsPage } from "../pages/SetsPage";
 import { OpenPackPage } from "../features/packs/pages/OpenPackPage";
 import { DashBoardPage } from "../pages/DashBoardPage";
 import Authpage from "../features/auth/pages/AuthPage";
-import CollectionPage from "../pages/CollectionPage";
+import CollectionPage from "../features/collection/pages/CollectionPage";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 
 export const router = createBrowserRouter([

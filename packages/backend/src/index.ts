@@ -24,7 +24,7 @@ app.use(express.json());
 app.use("/api/v1/sets", setsRouter);
 app.use("/api/v1", packsRouter);
 app.use("/api/v1/auth", authRouter);
-app.use("/api/vi/", collectionRouter)
+app.use("/api/v1/", collectionRouter)
 
 app.use(errorHandler);
 
