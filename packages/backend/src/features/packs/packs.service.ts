@@ -2,15 +2,39 @@ import { prisma } from "../../lib/prisma";
 import { getRecipeForSet } from "./packs.packrecipe";
 import { openPack } from "./packs.roll";
 
-export async function openPackForSet(setId: string) {
-    const cards = await prisma.card.findMany({ where: { setId }});
+export async function openPackForSet(setId: string, userId: string) {
+  const cards = await prisma.card.findMany({ where: { setId } });
 
-    if (cards.length === 0) {
-        return null;
-    }
+  if (cards.length === 0) {
+    return null;
+  }
 
-    const recipe = getRecipeForSet(setId)
+  const recipe = getRecipeForSet(setId);
+  const pulledCards = openPack(cards, recipe);
 
-    return openPack(cards, recipe);
+  await prisma.$transaction(
+    pulledCards.map((card) =>
+      prisma.userCard.upsert({
+        where: {
+          userId_cardId_variant: {
+            userId,
+            cardId: card.id,
+            variant: card.pulledVariant,
+          },
+        },
+        update: {
+          quantity: {
+            increment: 1,
+          },
+        },
+        create: {
+          userId,
+          cardId: card.id,
+          variant: card.pulledVariant,
+        },
+      }),
+    ),
+  );
+
+  return pulledCards;
 }
-

@@ -52,8 +52,9 @@ model UserCard {
   userId     String
   card       Card     @relation(fields: [cardId], references: [id])
   cardId     String
+  variant    String
   quantity   Int      @default(1)
   obtainedAt DateTime @default(now())
 
-  @@unique([userId, cardId])
+   @@unique([userId, cardId, variant])
 }

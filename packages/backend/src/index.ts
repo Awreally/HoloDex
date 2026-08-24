@@ -7,6 +7,7 @@ import { setsRouter } from "./features/sets/sets.routes";
 import { packsRouter } from "./features/packs/packs.routes";
 import { authRouter } from "./features/auth/auth.route";
 import { errorHandler } from "./middleware/errorHandler";
+import { collectionRouter } from "./features/collection/collection.route";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use("/api/v1/sets", setsRouter);
 app.use("/api/v1", packsRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/vi/", collectionRouter)
 
 app.use(errorHandler);
 
