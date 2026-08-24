@@ -75,3 +75,16 @@ export async function getMeHandler(
     next(err);
   }
 }
+
+export async function logoutHandler(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+ res.clearCookie("token", {
+  httpOnly: true,
+  secure: env.NODE_ENV === "production",
+  sameSite: "lax",
+ });
+ res.status(200).json({ success: true});
+}

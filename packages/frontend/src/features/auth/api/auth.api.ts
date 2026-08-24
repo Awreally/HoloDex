@@ -4,6 +4,7 @@ import type {
   LoginInput,
   RegisterInput,
   ApiSuccess,
+  ApiSuccessNoData,
 } from "../types/auth.types";
 
 export async function fetchRegisterUser(
@@ -26,10 +27,12 @@ export async function fetchLoginUser(input: LoginInput): Promise<UserResponse> {
   return res.data;
 }
 
-export async function fetchMe() : Promise<UserResponse> {
-  const res = await apiFetch<ApiSuccess<UserResponse>>(
-    "/auth/me",
-    
-  );
+export async function fetchLogoutUser() {
+  const res = await apiFetch<ApiSuccessNoData>("/auth/logout", "POST");
+  return res;
+}
+
+export async function fetchMe(): Promise<UserResponse> {
+  const res = await apiFetch<ApiSuccess<UserResponse>>("/auth/me");
   return res.data;
 }

@@ -3,6 +3,10 @@ export interface ApiSuccess<T> {
   data: T;
 }
 
+export interface ApiSuccessNoData {
+  success: true;
+}
+
 export interface RegisterInput {
   firstname: string;
   lastname: string;
