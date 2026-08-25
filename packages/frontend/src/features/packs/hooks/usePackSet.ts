@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
-import { CollectionEntry, UseCollectionResult  } from "../types/collection.types";
-import { fetchGetCollection } from "../api/collection.api";
+import { fetchGetPacks } from "../api/packs.api";
+import { SetsPack, UseSetsResult } from "../types/packs.types";
 
-export function useCollection(): UseCollectionResult {
-  const [collection, setCollection] = useState<CollectionEntry[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+export function usePackSet(): UseSetsResult {
+  const [sets, setSets] = useState<SetsPack[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     let cancelled = false;
 
     setIsLoading(true);
     setError(null);
-    fetchGetCollection()
+    fetchGetPacks()
       .then((data) => {
-        if (!cancelled) setCollection(data);
+        if (!cancelled) setSets(data);
       })
       .catch(() => {
         if (!cancelled) setError(error);
@@ -22,10 +22,9 @@ export function useCollection(): UseCollectionResult {
       .finally(() => {
         if (!cancelled) setIsLoading(false);
       });
-
     return () => {
       cancelled = true;
     };
   }, []);
-  return { collection, isLoading, error };
+  return { sets, isLoading, error };
 }
