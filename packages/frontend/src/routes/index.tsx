@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
         element: <ProtectedRoute><OpenPackPage /></ProtectedRoute>,
       },
       {
-        path: "sets",
+        path: "openpacks",
         element: <SetsPage />,
       },
       {

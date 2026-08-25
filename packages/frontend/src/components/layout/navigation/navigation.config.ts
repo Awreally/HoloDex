@@ -15,7 +15,7 @@ export const navSections: NavSection[] = [
         title: "Play",
         links: [
             { to: "/", label: "Dashboard", icon: "space_dashboard", end: true },
-            { to: "/sets", label: "Open Packs", icon: "inventory_2" },
+            { to: "/openpacks", label: "Open Packs", icon: "inventory_2" },
         ],
     },
     {
