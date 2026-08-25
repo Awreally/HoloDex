@@ -20,14 +20,15 @@ model User {
 }
 
 model Set {
-  id          String   @id
-  name        String
-  series      String?
-  total       Int
-  releaseDate DateTime?
-  logoUrl     String?
-  playable    Boolean  @default(false)
-  cards       Card[]
+  id           String   @id
+  name         String
+  series       String?
+  total        Int
+  releaseDate  DateTime?
+  logoUrl      String?
+  packImageUrl String?
+  playable     Boolean  @default(false)
+  cards        Card[]
 }
 
 model Card {
