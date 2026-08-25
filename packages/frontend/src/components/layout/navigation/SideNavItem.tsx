@@ -9,7 +9,7 @@ export const SideNavItem = ({ to, label, icon, end }: NavLinkItem) => (
       end={end}
       className={({ isActive }) =>
         clsx(
-          "relative flex h-[46px] cursor-pointer items-center gap-3 overflow-hidden rounded-[10px] px-3.5 transition-colors",
+          "relative flex h-11.5 cursor-pointer items-center gap-3 overflow-hidden rounded-[10px] px-3.5 transition-colors",
           isActive
             ? "font-semibold text-on-surface"
             : "text-on-surface-variant hover:bg-surface-container-low",
