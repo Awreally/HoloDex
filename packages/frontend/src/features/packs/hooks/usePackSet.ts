@@ -5,7 +5,7 @@ import { SetsPack, UseSetsResult } from "../types/packs.types";
 export function usePackSet(): UseSetsResult {
   const [sets, setSets] = useState<SetsPack[]>([]);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
