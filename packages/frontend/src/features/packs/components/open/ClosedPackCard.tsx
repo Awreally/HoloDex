@@ -1,20 +1,24 @@
-import BasePack from "../../../../assets/BasePack.png"
+import BasePack from "../../../../assets/BasePack.png";
+
+type ClosedPackCardProps = {
+  setName: string;
+  packImageUrl: string | null;
+  packCost: number;
+  isLoading: boolean;
+  onOpen: () => void;
+};
 
 export default function PackCard({
   setName,
+  packImageUrl,
   packCost,
-  onOpen,
   isLoading,
-}: {
-  setName: string;
-  packCost: number;
-  onOpen: () => void;
-  isLoading?: boolean;
-}) {
+  onOpen,
+}: ClosedPackCardProps) {
   return (
     <div className="flex flex-col items-center animate-[fadeUp_0.4s_ease_both]">
       <div className="w-60 h-82.5 rounded-2xl bg-linear-to-b from-violet-200 to-violet-400 flex flex-col items-center justify-center gap-2 shadow-[0_16px_30px_rgba(124,58,237,0.18)]">
-        <img src={BasePack} alt={setName} className="h-56 w-32 rounded-xl object-cover shadow-md" />
+        <img src={packImageUrl ?? BasePack} alt={setName} className="h-56 w-32 rounded-xl object-cover shadow-md" />
         <div className="font-extrabold text-lg text-violet-950">{setName}</div>
         <div className="text-[12.5px] font-semibold text-violet-800">Booster Pack</div>
       </div>

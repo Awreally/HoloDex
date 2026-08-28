@@ -1,12 +1,9 @@
-import { useCollection } from "../hooks/collection.hooks";
+import { useLoaderData } from "react-router";
 import { CollectionCardTile } from "../components/CollectionCardTile";
+import { CollectionEntry } from "../types/collection.types";
 
 export default function CollectionPage() {
-  const { collection, isLoading, error } = useCollection();
-  if (isLoading) return <p>Loading ...</p>;
-  if (error) return <p>{error}</p>;
-  if (collection.length === 0)
-    return <p>No cards yet — open a pack to get started!</p>;
+  const collection = useLoaderData() as CollectionEntry[];
 
   return (
     <div className="w-full">
