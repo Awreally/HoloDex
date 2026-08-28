@@ -27,11 +27,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "openpacks",
-        element: <SetsPage />,
+        element: <OpenPackPage />,
       },
       {
         path: "collection",
         element: <CollectionPage />,
+      },
+      {
+        path: "sets",
+        element: <SetsPage />
       },
       {
         path: "trade",
