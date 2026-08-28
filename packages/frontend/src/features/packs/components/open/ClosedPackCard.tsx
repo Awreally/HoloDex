@@ -1,4 +1,4 @@
-import BasePack from "../../../assets/BasePack.png";
+import BasePack from "../../../../assets/BasePack.png"
 
 export default function PackCard({
   setName,

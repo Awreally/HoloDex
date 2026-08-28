@@ -1,6 +1,6 @@
 import CardFace from "./CardFace";
-import { CardSummary } from "../types/packs.types";
-import { cardImageUrl } from "../../../lib/images";
+import { CardSummary } from "../../types/packs.types";
+import { cardImageUrl } from "../../../../lib/images";
 
 export default function OneByOneReveal({
   cards,

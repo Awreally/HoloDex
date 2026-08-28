@@ -1,5 +1,5 @@
-import { usePackSet } from "../hooks/usePackSet";
-import { PackCardFace } from "./PackCardFace";
+import { usePackSet } from "./usePackSet";
+import { PackCardFace } from "./PackThumbnail";
 
 export default function PackDisplay() {
     const { sets, isLoading, error } = usePackSet();
