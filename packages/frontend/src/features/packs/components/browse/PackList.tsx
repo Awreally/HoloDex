@@ -1,20 +1,18 @@
-import { usePackSet } from "./usePackSet";
-import { PackCardFace } from "./PackThumbnail";
+import { PackThumbnail } from "./PackThumbnail";
+import { SetsPack } from "../../types/packs.types";
 
-export default function PackDisplay() {
-    const { sets, isLoading, error } = usePackSet();
+type PackListProps = {
+  packs: SetsPack[];
+};
 
-    if (isLoading) return <p>Loading ...</p>;
-    if (error) return <p>{error}</p>;
-    
-    return (
-        <div className="w-full">
-            <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(132px,1fr))] gap-3.5">
-
-                {sets.map((s) => (
-                    <PackCardFace key={s.id} packsFace={s} />
-                ))}
-                </div>
+export default function PackList({ packs }: PackListProps) {
+  return (
+    <div className="w-full">
+      <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] items-stretch gap-3">
+        {packs.map((p) => (
+          <PackThumbnail key={p.id} packsFace={p} />
+        ))}
+      </div>
     </div>
-)
+  );
 }

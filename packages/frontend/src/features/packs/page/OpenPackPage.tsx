@@ -1,24 +1,27 @@
-import PackDisplay from "../components/browse/PackList";
+import PackList from "../components/browse/PackList";
 import PackOpener from "../components/open/PackOpener";
-import { fetchOpenPack } from "../api/packs.api";
-import { useParams } from "react-router";
+import { useParams, useRouteLoaderData } from "react-router";
+import type { SetsPack } from "../types/packs.types";
+
 export function OpenPackPage() {
-  const { setId } = useParams();
+  const packs = useRouteLoaderData("packs") as SetsPack[];
+  const setId = useParams().setId;
+  const selectedPack = packs.find((pack) => pack.id === setId);
 
   if (!setId) {
-    return <p>No set selected.</p>;
+    return <PackList packs={packs} />;
+  }
+
+  if (!selectedPack) {
+    return <p>Pack not found.</p>;
   }
 
   return (
     <div>
-      <PackDisplay />
-      <div>
-        <PackOpener
-          setName="Base Set"
-          drawCards={() => fetchOpenPack(setId)}
-          onComplete={(cards) => console.log(cards)}
-        />
-      </div>
+      <PackOpener
+        selectedPack={selectedPack}
+        onComplete={(cards) => console.log(cards)}
+      />
     </div>
   );
 }
