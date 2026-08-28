@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { CardSummary, Stage } from "../types/packs.types";
-
+import { CardSummary, Stage } from "../../types/packs.types";
 export function usePackOpener(
   drawCards: () => Promise<CardSummary[]>,
   onComplete?: (cards: CardSummary[]) => void,
@@ -25,23 +24,22 @@ export function usePackOpener(
       setIsLoading(false);
     }
   };
-  
+
   const next = () => {
     if (index + 1 >= cards.length) {
       setStage("done");
       onComplete?.(cards);
     } else {
-      console.log(cards)  
+      console.log(cards);
       setIndex((i) => i + 1);
     }
   };
 
-    const openAll = () => {
+  const openAll = () => {
     setIndex(cards.length - 1);
     setStage("done");
     onComplete?.(cards);
   };
-
 
   const reset = () => {
     setStage("closed");

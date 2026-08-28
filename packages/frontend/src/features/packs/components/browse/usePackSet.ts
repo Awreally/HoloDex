@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { fetchGetPacks } from "../api/packs.api";
-import { SetsPack, UseSetsResult } from "../types/packs.types";
+import { fetchGetPacks } from "../../api/packs.api";
+import { SetsPack, UseSetsResult } from "../../types/packs.types";
 
 export function usePackSet(): UseSetsResult {
   const [sets, setSets] = useState<SetsPack[]>([]);
