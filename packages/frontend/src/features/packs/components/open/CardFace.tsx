@@ -4,7 +4,7 @@ import { cardImageUrl } from "../../../../lib/images";
 export default function CardFace({ card }: { card: CardSummary }) {
   return (
     <div className="h-full w-full rounded-2xl border border-zinc-100">
-      <div className="flex items-center justify-center">
+      <div className="flex flex-col items-center justify-center">
         {card.imageLarge ? (
           <img
             src={cardImageUrl(card.imageLarge)}
@@ -14,7 +14,11 @@ export default function CardFace({ card }: { card: CardSummary }) {
         ) : (
           <span>{card.name}</span>
         )}
-        <div className="p-3.5"></div>
+        <p className="">{card.name}</p>
+        <p>{card.rarity}</p>
+        <p className="text-xs uppercase tracking-wide text-outline">
+          {card.pulledVariant}
+        </p>
       </div>
     </div>
   );
