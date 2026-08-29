@@ -1,5 +1,7 @@
 export type Variant = "normal" | "reverse" | "holo";
 
+
+
 export type CardSummary = {
   id: string;
   name: string;

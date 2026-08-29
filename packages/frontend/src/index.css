@@ -9,6 +9,16 @@ body {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+@keyframes holoSheen {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes shineSweep {
+  0% { transform: translateX(-60%) skewX(-15deg); }
+  100% { transform: translateX(160%) skewX(-15deg); }
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
@@ -89,6 +99,10 @@ body {
   --text-headline-lg-s: 12px;
   --text-headline-lg-s--line-height: 1.2;
   --text-headaline-lg-s--font-weight: 400;
+
+  --text-headline-lg-sm: 14px;
+  --text-headline-lg-sm--line-height: 1.2;
+  --text-headaline-lg-sm--font-weight: 400;
 
   --text-body-lg: 18px;
   --text-body-lg--line-height: 1.6;

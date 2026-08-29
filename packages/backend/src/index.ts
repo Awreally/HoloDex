@@ -26,7 +26,6 @@ app.use("/api/v1", packsRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/", collectionRouter)
 
-app.use(errorHandler);
 
 app.get("/api/health", async (_req, res) => {
   try {
@@ -40,3 +39,5 @@ app.get("/api/health", async (_req, res) => {
 app.listen(env.PORT, () => {
   console.log(`Server running on port ${env.PORT}`);
 });
+
+app.use(errorHandler);

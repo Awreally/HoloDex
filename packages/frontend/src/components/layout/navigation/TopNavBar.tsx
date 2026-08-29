@@ -1,8 +1,10 @@
 import { Link } from "react-router";
 import { LogoutButton } from "../../../features/auth/components/LogoutButton";
-import { SignedIn, SignedOut } from "../../../features/auth/components/AuthGate";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function TopNavBar() {
+  const { user } = useAuth();
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-surface-variant bg-surface shadow-sm">
       <div className="relative mx-auto flex h-20 w-full max-w-container-max items-center justify-between px-margin-desktop">
@@ -55,7 +57,7 @@ export default function TopNavBar() {
                 account_balance_wallet
               </span>
             </button>
-            <SignedOut>
+            {!user && (
               <Link
               to="login"
               aria-label="Login"
@@ -63,8 +65,8 @@ export default function TopNavBar() {
               >
               <span className="material-symbols-outlined">person</span>
             </Link>
-              </SignedOut>
-            <SignedIn><LogoutButton /></SignedIn>
+            )}
+            {user && <LogoutButton /> }
           </div>
         </div>
       </div>
