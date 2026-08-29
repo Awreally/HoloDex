@@ -9,10 +9,19 @@ body {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
+@keyframes holoSheen {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes shineSweep {
+  0% { transform: translateX(-60%) skewX(-15deg); }
+  100% { transform: translateX(160%) skewX(-15deg); }
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* ── Colors (v3 colors → --color-*) ───────────────────────────── */
   --color-inverse-on-surface: #f0f1f1;
   --color-on-secondary: #ffffff;
   --color-surface-container-low: #f3f3f4;
@@ -61,7 +70,6 @@ body {
   --color-error-container: #ffdad6;
   --color-outline-variant: #cdc3d2;
 
-  /* ── Border radius (v3 borderRadius → --radius-*) ─────────────── */
   --radius: 0.25rem; /* the v3 DEFAULT key becomes the bare --radius */
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
@@ -87,6 +95,14 @@ body {
   --text-headline-lg-mobile: 24px;
   --text-headline-lg-mobile--line-height: 1.2;
   --text-headline-lg-mobile--font-weight: 700;
+
+  --text-headline-lg-s: 12px;
+  --text-headline-lg-s--line-height: 1.2;
+  --text-headaline-lg-s--font-weight: 400;
+
+  --text-headline-lg-sm: 14px;
+  --text-headline-lg-sm--line-height: 1.2;
+  --text-headaline-lg-sm--font-weight: 400;
 
   --text-body-lg: 18px;
   --text-body-lg--line-height: 1.6;

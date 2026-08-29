@@ -1,6 +1,6 @@
 import CardFace from "./CardFace";
-import { CardSummary } from "../types/packs.types";
-import { cardImageUrl } from "../../../lib/images";
+import { CardSummary } from "../../types/packs.types";
+import { cardImageUrl } from "../../../../lib/images";
 
 export default function OneByOneReveal({
   cards,
@@ -29,7 +29,7 @@ export default function OneByOneReveal({
         {index + 1} / {cards.length}
       </div>
 
-      <div className="mb-6 flex gap-3">
+      <div className="mt-4 mb-6 flex gap-3">
         <button
           onClick={onNext}
           className="cursor-pointer rounded-lg border-none bg-linear-to-br from-violet-500 to-violet-700 px-7 py-3 text-[14.5px] font-extrabold text-white transition hover:brightness-105 active:scale-[0.98]"

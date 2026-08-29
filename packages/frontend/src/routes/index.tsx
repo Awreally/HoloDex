@@ -1,17 +1,25 @@
 import { createBrowserRouter } from "react-router";
+import { RouteErrorBoundary, RouteLoading } from "./RouteFeedBack";
 import RootLayout from "../components/layout/RootLayout";
-import { SetsPage } from "../pages/SetsPage";
-import { OpenPackPage } from "../features/packs/pages/OpenPackPage";
+import SetsPage from "../features/sets/pages/SetsPage";
+import { OpenPackPage } from "../features/packs/page/OpenPackPage";
 import { DashBoardPage } from "../pages/DashBoardPage";
 import { TradePage } from "../pages/TradePage";
 import Authpage from "../features/auth/pages/AuthPage";
 import CollectionPage from "../features/collection/pages/CollectionPage";
-import { ProtectedRoute } from "../components/ProtectedRoute";
-
+import { PackLayout } from "../features/packs/page/PackLayout";
+import { packsLoader, openPackAction } from "../features/packs/loaders/packs.loader";
+import { collectionLoader } from "../features/collection/loaders/collection.loaders";
+import { setsLoader } from "../features/sets/loader/sets.loader";
+import { loginAction, registerAction, authLoader, logoutAction } from "../features/auth/loaders/auth.loaders";
 export const router = createBrowserRouter([
   {
+    id: "root",
     path: "/",
+    loader: authLoader, 
     element: <RootLayout />,
+    errorElement: <RouteErrorBoundary />,
+    hydrateFallbackElement: <RouteLoading />,
     children: [
       {
         index: true,
@@ -19,23 +27,45 @@ export const router = createBrowserRouter([
       },
       {
         path: "login",
+        action: loginAction,
         element: <Authpage />,
       },
       {
-        path: "packs/:setId",
-        element: <ProtectedRoute><OpenPackPage /></ProtectedRoute>,
+        path: "register",
+        action: registerAction,
+        element: <Authpage />
       },
       {
-        path: "openpacks",
-        element: <OpenPackPage />,
+        path: "logout",
+        action: logoutAction,
       },
+      {
+        path: "packs",
+        id: "packs",
+        loader: packsLoader,
+        element: <PackLayout />,
+        children: [
+          {
+            index: true,
+            element: <OpenPackPage />,
+          },
+          {
+            path: ":setId",
+            action: openPackAction,
+            element: <OpenPackPage />,
+          },
+        ],
+      },
+    
       {
         path: "collection",
+        loader: collectionLoader,
         element: <CollectionPage />,
       },
       {
         path: "sets",
-        element: <SetsPage />
+        loader: setsLoader,
+        element: <SetsPage />,
       },
       {
         path: "trade",

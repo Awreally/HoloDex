@@ -15,6 +15,9 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
     req.user = { userId: decoded.userId, role: decoded.role };
     next();
   } catch (err) {
+    if (!(err instanceof jwt.TokenExpiredError)) {
+      console.error(err);
+    }
     return next(new AppError(401, "Invalid token", "INVALID_TOKEN"));
   }
 }

@@ -1,9 +1,14 @@
+export type Variant = "normal" | "reverse" | "holo";
+
+
+
 export type CardSummary = {
   id: string;
   name: string;
   imageLarge: string | null;
   imageSmall: string | null;
   rarity: string;
+  pulledVariant: Variant;
 };
 
 export type Stage = "closed" | "one" | "done";
