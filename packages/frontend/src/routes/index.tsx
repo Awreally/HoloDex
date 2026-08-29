@@ -11,6 +11,7 @@ import { PackLayout } from "../features/packs/page/PackLayout";
 import { packsLoader, openPackAction } from "../features/packs/loaders/packs.loader";
 import { collectionLoader } from "../features/collection/loaders/collection.loaders";
 import { setsLoader } from "../features/sets/loader/sets.loader";
+import { loginAction } from "../features/auth/loaders/auth.loaders";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -24,6 +25,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "login",
+        action: loginAction,
         element: <Authpage />,
       },
       {
