@@ -20,7 +20,6 @@ export default function CardFace({ card }: { card: CardSummary }) {
   const hasFoil = isHolo || isReverse;
 
   useEffect(() => {
-    setFoilActive(true);
     const timer = setTimeout(
       () => setFoilActive(false),
       FOIL_EFFECT_DURATION_MS,

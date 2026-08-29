@@ -1,4 +1,4 @@
-import type { Card, Variant, RollResult, PackRecipe, PulledCard} from "./packs.types";
+import type { Card, Variant, PackRecipe, PulledCard} from "./packs.types";
 
 function cardHasVariant(card: Card, variant: Variant): boolean {
   if (variant === "normal") return card.normal;

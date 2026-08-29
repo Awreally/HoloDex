@@ -18,14 +18,14 @@ Reviewed 2026-08-29 against the `Holoeffect` branch.
   sync as you close items below.
 - No secrets committed, `.env` correctly gitignored, `.env.example` present.
 
-## 1. Finish and commit what's in progress
+## 1. Finish and commit what's in progress - DONE
 
 You have uncommitted changes sitting in `CardFace.tsx`, `OneByOneReveal.tsx`,
 and `index.css`. A reviewer who clones the repo only sees what's committed —
 finish that work (or stash/branch it) so `main`/`Holoeffect` reflects a
 clean, working state.
 
-## 2. Add automated tests — biggest gap
+## 2. Add automated tests — biggest gap - DONE 
 
 There are currently **zero test files** anywhere in the repo. This is the
 single thing most likely to be asked about in an interview ("how did you
@@ -82,14 +82,14 @@ common attacks") and are each a few lines:
 - `express-rate-limit` on `/auth/register` and `/auth/login` — brute-force
   protection, and a natural thing to bring up if asked about security.
 
-## 6. Add linting
+## 6. Add linting - DONE
 
 Neither package has an ESLint config. Strict TypeScript catches a lot, but
 add `eslint` (+ `typescript-eslint`, + `eslint-plugin-react-hooks` on the
 frontend) and a `lint` script. Cheap to add, and "has linting configured" is
 one of the first things reviewers check for on a repo.
 
-## 7. Set up CI
+## 7. Set up CI - DONE
 
 A `.github/workflows/ci.yml` that runs on every push/PR: `npm install`,
 `npm run build --workspaces`, `npm run lint`, `npm test`. This is one of the

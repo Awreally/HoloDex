@@ -79,7 +79,7 @@ export async function getMeHandler(
 export async function logoutHandler(
   req: Request,
   res: Response,
-  next: NextFunction,
+  _next: NextFunction,
 ): Promise<void> {
  res.clearCookie("token", {
   httpOnly: true,
