@@ -1,5 +1,6 @@
 import { CardSummary } from "../../types/packs.types";
 import { cardImageUrl } from "../../../../lib/images";
+import { variantLabels } from "../../config/packs.config";
 
 export default function CardFace({ card }: { card: CardSummary }) {
   return (
@@ -17,7 +18,7 @@ export default function CardFace({ card }: { card: CardSummary }) {
         <p className="">{card.name}</p>
         <p>{card.rarity}</p>
         <p className="text-xs uppercase tracking-wide text-outline">
-          {card.pulledVariant}
+          {variantLabels[card.pulledVariant]}
         </p>
       </div>
     </div>
