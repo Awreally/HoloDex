@@ -73,6 +73,7 @@ body {
   --radius: 0.25rem; /* the v3 DEFAULT key becomes the bare --radius */
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
+  --radius-border: 2rem;
   --radius-full: 9999px;
 
   /* ── Spacing (v3 spacing → --spacing-*) ───────────────────────── */
