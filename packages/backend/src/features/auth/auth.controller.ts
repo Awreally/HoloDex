@@ -2,9 +2,10 @@ import { Request, Response, NextFunction } from "express";
 import { registerUser, loginUser, getUserById } from "./auth.service";
 import { env } from "../../config/env";
 import { AppError } from "../../errors/AppError";
+import type { RegisterInput, LoginInput } from "./auth.validation";
 
 export async function registerUserHandler(
-  req: Request,
+  req: Request<unknown, unknown, RegisterInput>,
   res: Response,
   next: NextFunction,
 ): Promise<void> {
@@ -29,7 +30,7 @@ export async function registerUserHandler(
 }
 
 export async function loginUserHandler(
-  req: Request,
+  req: Request<unknown, unknown, LoginInput>,
   res: Response,
   next: NextFunction,
 ): Promise<void> {

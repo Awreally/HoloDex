@@ -44,18 +44,22 @@ than a large sloppy one:
 Add a `test` script to both `package.json`s so `npm test` from the root
 actually runs something.
 
-## 3. Add input validation on the API
+## 3. Add input validation on the API - DONE
 
-`registerUser(req.body)` and `loginUser(req.body)` in
-[auth.controller.ts](packages/backend/src/features/auth/auth.controller.ts)
-pass the raw request body straight into the service layer — no schema check,
-no email format check, no minimum password length. Right now a malformed or
-malicious body only fails as far down as a Prisma error or a bcrypt call.
-
-Add `zod` (or similar), define a schema per route, and validate in the
-controller before calling the service. This is a very standard, very visible
-signal of backend maturity — worth doing before anything else on this list
-except tests.
+Added a combined `validateRequest` middleware
+([validateRequest.ts](packages/backend/src/middleware/validateRequest.ts))
+that runs a zod schema against body/params/query before the route handler,
+attaches parsed data back onto `req`, and reports failures through the same
+`AppError` → `errorHandler` path every other error uses (`{ success: false,
+message, code, details }`) instead of a one-off shape. Wired
+`RegisterSchema`/`LoginSchema` into `/auth/register` and `/auth/login`
+([auth.route.ts](packages/backend/src/features/auth/auth.route.ts)). Also
+swapped the service and controller signatures from hand-duplicated inline
+types to the zod-inferred `RegisterInput`/`LoginInput`
+([auth.service.ts](packages/backend/src/features/auth/auth.service.ts),
+[auth.controller.ts](packages/backend/src/features/auth/auth.controller.ts)),
+so a schema change now surfaces as a compile error instead of silently
+drifting.
 
 ## 4. Fix the error handler ordering bug - DONE
 
@@ -73,14 +77,18 @@ it. The health route happens to have its own try/catch so it's not currently
 broken, but it's a landmine for the next route you add after this line.
 Move `app.use(errorHandler)` to the very end of the file, after all routes.
 
-## 5. Basic API hardening
+## 5. Basic API hardening - DONE
 
-Quick wins that read well on a resume bullet ("hardened the API against
-common attacks") and are each a few lines:
-
-- `helmet` for security headers.
-- `express-rate-limit` on `/auth/register` and `/auth/login` — brute-force
-  protection, and a natural thing to bring up if asked about security.
+- Added `helmet()` globally in [app.ts](packages/backend/src/app.ts) — CSP,
+  HSTS, `X-Frame-Options`, etc.
+- Added `express-rate-limit` on `/auth/register` and `/auth/login`
+  ([authRateLimit.ts](packages/backend/src/middleware/authRateLimit.ts)):
+  10 requests per 15-minute window per IP, disabled under `NODE_ENV=test` so
+  it doesn't interfere with the integration test's repeated register/login
+  calls, and reports through the same `AppError` (429, `TOO_MANY_REQUESTS`)
+  as the rest of the API. Manually verified: 11th request within the window
+  returns `429` with `{"success":false,"message":"Too many attempts, please
+  try again later","code":"TOO_MANY_REQUESTS"}`.
 
 ## 6. Add linting - DONE
 

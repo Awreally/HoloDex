@@ -3,14 +3,9 @@ import bcrypt from "bcrypt";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../errors/AppError";
 import { env } from "../../config/env";
+import type { RegisterInput, LoginInput } from "./auth.validation";
 
-export async function registerUser(data: {
-  email: string;
-  password: string;
-  username: string;
-  firstname: string;
-  lastname: string;
-}) {
+export async function registerUser(data: RegisterInput) {
   const existing = await prisma.user.findUnique({ where: { email: data.email } });
 
   if (existing) {
@@ -37,7 +32,7 @@ export async function registerUser(data: {
   };
 }
 
-export async function loginUser(data: { email: string; password: string;}) {
+export async function loginUser(data: LoginInput) {
   const user = await prisma.user.findUnique({
     where: { email: data.email },
   });

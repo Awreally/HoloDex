@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import { env } from "./config/env";
 import { prisma } from "./lib/prisma";
@@ -11,6 +12,7 @@ import { collectionRouter } from "./features/collection/collection.route";
 
 export const app = express();
 
+app.use(helmet());
 app.use(cookieParser());
 app.use(
   cors({

@@ -1,8 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 import { openPackForSet } from "./packs.service";
+import type { OpenPackParams } from "./packs.validation";
+import { AppError } from "../../errors/AppError";
 
 export async function openPack(
-  req: Request,
+  req: Request<OpenPackParams>,
   res: Response,
   next: NextFunction,
 ): Promise<void> {
@@ -11,23 +13,16 @@ export async function openPack(
     const userId = req.user?.userId;
 
     if (typeof userId !== "string") {
-      res.status(401).json({ message: "Unauthorized" });
-      return;
-    }
-
-    if (typeof setId !== "string") {
-      res.status(400).json({ message: "Invalid setId" });
-      return;
+      return next(new AppError(401, "Authentication required", "AUTHENTICATION_REQUIRED"));
     }
 
     const pulledCards = await openPackForSet(setId, userId);
 
     if (pulledCards === null) {
-      res.status(404).json({ message: `No cards found for set '${setId}'` });
-      return;
+      return next(new AppError(404, `No cards found for set '${setId}'`, "SET_NOT_FOUND"));
     }
 
-    res.status(200).json(pulledCards);
+    res.status(200).json({ success: true, data: pulledCards });
   } catch (err) {
     next(err);
   }
