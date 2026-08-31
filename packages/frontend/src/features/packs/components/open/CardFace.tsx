@@ -6,7 +6,6 @@ import {
 } from "react";
 import { CardSummary } from "../../types/packs.types";
 import { cardImageUrl } from "../../../../lib/images";
-import { variantLabels } from "../../config/packs.config";
 
 type FoilStyle = CSSProperties & { "--px"?: string; "--py"?: string };
 
@@ -43,7 +42,7 @@ export default function CardFace({ card }: { card: CardSummary }) {
   const foilVisible = hasFoil && foilActive;
 
   return (
-    <div className="h-full w-full rounded-2xl border border-zinc-100">
+    <div className="w-full rounded-2xl border border-zinc-100">
       <div className="flex flex-col justify-center">
         {card.imageLarge ? (
           <div
@@ -99,15 +98,6 @@ export default function CardFace({ card }: { card: CardSummary }) {
         ) : (
           <span>{card.name}</span>
         )}
-        <div className="mt-1.5 flex flex-col items-center">
-          <p className="font-headline-lg text-headline-lg-sm text-on-surface">
-            {card.name}
-          </p>
-          <p>{card.rarity}</p>
-          <p className="text-xs tracking-wide text-outline uppercase">
-            {variantLabels[card.pulledVariant]}
-          </p>
-        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
-import CardFace from "./CardFace";
 import type { CardSummary } from "../../types/packs.types";
 import { Link } from "react-router";
+import PulledCard from "./PulledCard";
 
 export default function PackSummary({
   cards,
@@ -41,7 +41,7 @@ export default function PackSummary({
       <div className="grid grid-cols-[repeat(auto-fill,minmax(158px,1fr))] gap-4">
         {cards.map((c) => (
           <div key={c.id}>
-            <CardFace card={c} />
+            <PulledCard key={c.id } card={c} size="summary" />
           </div>
         ))}
       </div>

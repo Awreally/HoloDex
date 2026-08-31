@@ -1,7 +1,14 @@
 @import "tailwindcss";
 
 body {
-  @apply bg-background text-on-background font-body-md text-body-md antialiased;
+  @apply bg-background text-on-background font-body-md text-body-md antialiased
+}
+h1,h2,h3,h4 {
+  @apply font-headline-lg
+}
+
+button {
+  @apply font-headline-lg
 }
 
 @keyframes fadeUp {
@@ -99,11 +106,11 @@ body {
 
   --text-headline-lg-s: 12px;
   --text-headline-lg-s--line-height: 1.2;
-  --text-headaline-lg-s--font-weight: 400;
+  --text-headline-lg-s--font-weight: 600;
 
   --text-headline-lg-sm: 14px;
   --text-headline-lg-sm--line-height: 1.2;
-  --text-headaline-lg-sm--font-weight: 400;
+  --text-headline-lg-sm--font-weight: 400;
 
   --text-body-lg: 18px;
   --text-body-lg--line-height: 1.6;
@@ -113,7 +120,11 @@ body {
   --text-headline-lg--line-height: 1.2;
   --text-headline-lg--font-weight: 700;
 
-  --text-label-sm: 12px;
+  --text-headline-xl: 64px;
+  --text-headline-xl--line-height: 1.2
+  --text-headline-xl--font-weight: 800;
+
+  --text-label-sm: 13px;
   --text-label-sm--line-height: 1;
   --text-label-sm--letter-spacing: 0.05em;
   --text-label-sm--font-weight: 600;
@@ -130,5 +141,8 @@ body {
   --text-display-lg--line-height: 1.1;
   --text-display-lg--letter-spacing: -0.02em;
   --text-display-lg--font-weight: 700;
+
+  --text-button: 15px
+  --text-button--font-weight: 700
 
 }

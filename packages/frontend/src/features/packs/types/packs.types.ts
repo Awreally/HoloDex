@@ -1,7 +1,5 @@
 export type Variant = "normal" | "reverse" | "holo";
 
-
-
 export type CardSummary = {
   id: string;
   name: string;
@@ -22,6 +20,7 @@ export type SetsPack = {
   logoUrl: string | null;
   packImageUrl: string | null;
   playable: boolean;
+  packSize: number;
 }
 
 export type UseSetsResult = {

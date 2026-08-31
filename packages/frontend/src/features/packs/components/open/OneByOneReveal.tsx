@@ -1,6 +1,6 @@
-import CardFace from "./CardFace";
 import { CardSummary } from "../../types/packs.types";
 import { cardImageUrl } from "../../../../lib/images";
+import PulledCard from "./PulledCard";
 
 export default function OneByOneReveal({
   cards,
@@ -14,19 +14,19 @@ export default function OneByOneReveal({
   onOpenAll: () => void;
 }) {
   const isLast = index + 1 >= cards.length;
-
+  const card = cards[index];
   return (
     <div className="flex w-full flex-col items-center pt-2">
-      <div
-        key={index}
-        onClick={onNext}
-        className="h-96 w-68 animate-[fadeUp_0.4s_ease_both] cursor-pointer"
-      >
-        <CardFace card={cards[index]} />
+      <div className="gap 3.5 mb-5.5 flex items-center">
+        <span className="font-mono text-headline-lg-sm text-outline">
+          {index + 1} / {cards.length}
+        </span>
       </div>
-
-      <div className="my-4 font-mono text-xs text-zinc-400">
-        {index + 1} / {cards.length}
+      <div
+        onClick={onNext}
+        className="cursor-pointer"
+      >
+        <PulledCard card={card} size="large" />
       </div>
 
       <div className="mt-4 mb-6 flex gap-3">
