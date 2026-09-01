@@ -27,3 +27,23 @@ export type UseCollectionResult = {
   isLoading: boolean;
   error: string | null;
 };
+
+export type PaginationMeta = {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+};
+
+export type CollectionQueryParams = {
+  page?: number;
+  pageSize?: number;
+  setId?: string;
+  variant?: "normal" | "reverse" | "holo";
+  sortDir?: "asc" | "desc";
+};
+
+export type CollectionResult = {
+  collection: CollectionEntry[];
+  pagination: PaginationMeta;
+};

@@ -1,9 +1,16 @@
-import { useLoaderData } from "react-router";
+import { useLoaderData, useSearchParams } from "react-router";
 import { CollectionCardTile } from "../components/CollectionCardTile";
-import { CollectionEntry } from "../types/collection.types";
+import { CollectionResult } from "../types/collection.types";
 
 export default function CollectionPage() {
-  const collection = useLoaderData() as CollectionEntry[];
+  const { collection, pagination } = useLoaderData() as CollectionResult;
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  function goToPage(page: number) {
+    const next = new URLSearchParams(searchParams);
+    next.set("page", String(page));
+    setSearchParams(next);
+  }
 
   return (
     <div className="w-full">
@@ -15,7 +22,7 @@ export default function CollectionPage() {
         Collection
       </h1>
       <p className="text-body-md tracking-[0.08em] text-outline">
-        {collection.length} card{collection.length === 1 ? "" : "s"} collected
+        {pagination.total} card{pagination.total === 1 ? "" : "s"} collected
       </p>
       </div>
 
@@ -24,6 +31,30 @@ export default function CollectionPage() {
           <CollectionCardTile key={c.id} entry={c} />
         ))}
       </div>
+
+      {pagination.totalPages > 1 && (
+        <div className="mt-8 flex items-center justify-center gap-4">
+          <button
+            type="button"
+            onClick={() => goToPage(pagination.page - 1)}
+            disabled={pagination.page <= 1}
+            className="text-label-sm tracking-widest uppercase text-on-surface-variant disabled:opacity-40"
+          >
+            Prev
+          </button>
+          <span className="text-body-md text-outline">
+            Page {pagination.page} of {pagination.totalPages}
+          </span>
+          <button
+            type="button"
+            onClick={() => goToPage(pagination.page + 1)}
+            disabled={pagination.page >= pagination.totalPages}
+            className="text-label-sm tracking-widest uppercase text-on-surface-variant disabled:opacity-40"
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 }

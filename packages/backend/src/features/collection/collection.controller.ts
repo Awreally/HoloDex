@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { getCollectionForUser } from "./collection.service";
 import { AppError } from "../../errors/AppError";
+import type { CollectionQuery } from "./collection.validation";
 
 export async function getCollection(
     req: Request,
@@ -14,10 +15,12 @@ export async function getCollection(
             return next(new AppError(401, "Authentication required", "AUTHENTICATION_REQUIRED"));
         }
 
-    const collection = await getCollectionForUser(userId);
+    const query = req.query as unknown as CollectionQuery;
+    const { entries, pagination } = await getCollectionForUser(userId, query);
     res.status(200).json({
-        succsess: true,
-        data: collection,
+        success: true,
+        data: entries,
+        pagination,
     })
     } catch (err) {
         next(err);

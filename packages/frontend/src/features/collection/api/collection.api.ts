@@ -1,8 +1,18 @@
 import { apiFetch } from "../../../lib/api";
-import { CollectionEntry } from "../types/collection.types";
+import { CollectionEntry, CollectionQueryParams, CollectionResult, PaginationMeta } from "../types/collection.types";
 import { ApiSuccess } from "../../auth/types/auth.types";
 
-export async function fetchGetCollection(): Promise<CollectionEntry[]>{
-const res = await apiFetch<ApiSuccess<CollectionEntry[]>>("/collection");
-return res.data;
+type CollectionResponse = ApiSuccess<CollectionEntry[]> & { pagination: PaginationMeta };
+
+export async function fetchGetCollection(params: CollectionQueryParams = {}): Promise<CollectionResult> {
+  const searchParams = new URLSearchParams();
+  if (params.page) searchParams.set("page", String(params.page));
+  if (params.pageSize) searchParams.set("pageSize", String(params.pageSize));
+  if (params.setId) searchParams.set("setId", params.setId);
+  if (params.variant) searchParams.set("variant", params.variant);
+  if (params.sortDir) searchParams.set("sortDir", params.sortDir);
+
+  const query = searchParams.toString();
+  const res = await apiFetch<CollectionResponse>(`/collection${query ? `?${query}` : ""}`);
+  return { collection: res.data, pagination: res.pagination };
 }
