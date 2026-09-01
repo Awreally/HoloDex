@@ -26,7 +26,7 @@ app.use(express.json());
 app.use("/api/v1/sets", setsRouter);
 app.use("/api/v1", packsRouter);
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/", collectionRouter);
+app.use("/api/v1/collection", collectionRouter);
 
 app.get("/api/health", async (_req, res) => {
   try {

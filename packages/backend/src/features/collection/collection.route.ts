@@ -1,14 +1,18 @@
 import { Router } from "express";
-import { getCollection } from "./collection.controller";
+import { getCollection, getCollectionSets } from "./collection.controller";
 import { requireAuth } from "../../middleware/requireAuth";
 import { validateRequest } from "../../middleware/validateRequest";
-import { CollectionQuerySchema } from "./collection.validation";
+import {
+  CollectionQuerySchema,
+  SetParamsSchema,
+} from "./collection.validation";
 
 export const collectionRouter = Router();
 
+collectionRouter.get("/sets", requireAuth, getCollectionSets);
 collectionRouter.get(
-    "/collection",
-    requireAuth,
-    validateRequest({ query: CollectionQuerySchema }),
-    getCollection,
+  "/sets/:setId/cards",
+  requireAuth,
+  validateRequest({ params: SetParamsSchema, query: CollectionQuerySchema }),
+  getCollection,
 );
