@@ -11,7 +11,7 @@ export default function CollectionCardGrid({
   collection,
   pagination,
 }: CollectionCardGridProps) {
-    const { variant, sortDir, page, setVariant, goToPage } = useCollectionFilters();
+    const { goToPage } = useCollectionFilters();
     
   return (
     <div>

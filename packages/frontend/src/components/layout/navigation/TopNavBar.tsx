@@ -29,29 +29,9 @@ export default function TopNavBar() {
 
         <div className="flex items-center gap-8">
           <div className="flex flex-col items-end">
-            <span className="font-label-sm text-label-sm tracking-wider text-on-surface-variant uppercase">
-              Level
-            </span>
-            <span className="font-title-md text-title-md font-bold text-primary">
-              Lvl 42
-            </span>
           </div>
 
           <div className="flex items-center gap-6">
-            <button
-              title="5,000 Coins"
-              className="flex items-center gap-1.5 rounded-full bg-secondary-container/20 px-3 py-1.5 text-on-secondary-container transition-colors hover:bg-secondary-container/30"
-            >
-              <span
-                className="material-symbols-outlined text-secondary"
-                style={{ fontVariationSettings: "'FILL' 1" }}
-              >
-                toll
-              </span>
-              <span className="font-title-md text-title-md font-bold text-secondary">
-                5,000
-              </span>
-            </button>
             <button className="rounded-full p-2 text-on-surface-variant transition hover:bg-surface-container-low hover:text-primary active:scale-90">
               <span className="material-symbols-outlined">
                 account_balance_wallet

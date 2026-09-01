@@ -4,133 +4,112 @@ Goal: get HoloDex to a state where you'd feel comfortable linking it in a LIA
 application. Ordered by impact — top items matter most to someone skimming
 your GitHub for 5 minutes.
 
-Reviewed 2026-08-29 against the `Holoeffect` branch.
+Reviewed 2026-09-01 against `dev` (commit `4a40043`).
 
-## What's already good (keep this in mind, don't second-guess it)
+## Verdict
 
-- Clean feature-based structure on both frontend and backend, consistent
-  naming, `strict: true` in both `tsconfig.json`s.
-- Real architecture decisions, not tutorial-clone stuff: server-authoritative
-  pack rolls, JWT in an httpOnly cookie, external data cached in your own DB
-  instead of proxying TCGdex live.
-- README is genuinely good — has a status section, a roadmap, and explains
-  *why* each architecture choice was made. Don't rewrite it, just keep it in
-  sync as you close items below.
-- No secrets committed, `.env` correctly gitignored, `.env.example` present.
+**Not yet — but closer than it feels.** The engineering underneath is
+genuinely good and would hold up in an interview: real auth, a
+server-authoritative pack roll, input validation, tests that pass, CI that's
+green, no secrets committed. That's the hard part and it's done.
 
-## 1. Finish and commit what's in progress - DONE
+What's missing is the part a non-technical (or 30-second-skim) reviewer
+actually judges first: does it work when I click around, and does it work on
+my phone. Right now the answer to both is "partially," and that's what
+you should close before putting a link on a CV. None of it is architecturally
+hard — it's 1-2 focused days, not a rewrite.
 
-You have uncommitted changes sitting in `CardFace.tsx`, `OneByOneReveal.tsx`,
-and `index.css`. A reviewer who clones the repo only sees what's committed —
-finish that work (or stash/branch it) so `main`/`Holoeffect` reflects a
-clean, working state.
+## What's already good (confirmed working today, don't second-guess it)
 
-## 2. Add automated tests — biggest gap - DONE 
+- `npm run build --workspaces`, `npm test --workspaces`, and lint all pass
+  clean right now — backend 9/9 tests, frontend 8/8.
+- CI (`.github/workflows/ci.yml`) runs install → build → lint → test on every
+  push/PR to `main`/`dev`.
+- Zod validation on auth routes, a real `errorHandler`, rate limiting on
+  login/register, `helmet()` — this is more hardening than most portfolio
+  projects bother with.
+- Clean feature-based structure on both frontend and backend, `strict: true`
+  in both `tsconfig.json`s.
+- README is genuinely good — status section, roadmap, explains *why* each
+  architecture choice was made. Keep it in sync as you close items below.
 
-There are currently **zero test files** anywhere in the repo. This is the
-single thing most likely to be asked about in an interview ("how did you
-verify this works?") and the easiest to have no good answer for right now.
-You don't need full coverage — a small, deliberate set is more convincing
-than a large sloppy one:
+## 1. Dead buttons — fix or remove before anyone clicks around
 
-- Backend: unit test `packs.roll.ts` / `packs.packrecipe.ts` (pure functions,
-  easy to test, and it's your most interesting piece of logic — the rarity
-  roll is exactly what an interviewer will ask you to explain).
-- Backend: one integration test for the auth flow (register → login → `/me`
-  → logout) using something like `supertest` against a test database.
-- Frontend: a couple of component tests (Vitest + React Testing Library) for
-  something with real logic, e.g. `usePackOpener.ts` or `AuthContext`.
+A reviewer's first move is to click every button. Right now three don't do
+anything, in a first-time visitor's direct line of sight:
 
-Add a `test` script to both `package.json`s so `npm test` from the root
-actually runs something.
+- **Search bar** ([TopNavBar.tsx:22-26](packages/frontend/src/components/layout/navigation/TopNavBar.tsx#L22-L26))
+  — plain `<input>`, no `onChange`, no state, no submit handler.
+- **"Shop Packs" button** ([SideNavBar.tsx:21-26](packages/frontend/src/components/layout/navigation/SideNavBar.tsx#L21-L26))
+  — no `onClick`, no `Link`, goes nowhere.
+- **Coin balance / wallet icon** ([TopNavBar.tsx:35-53](packages/frontend/src/components/layout/navigation/TopNavBar.tsx#L35-L53))
+  — hardcoded "5,000", also unwired.
 
-## 3. Add input validation on the API - DONE
+You don't need to build a search feature or an economy system to fix this.
+Two honest options:
 
-Added a combined `validateRequest` middleware
-([validateRequest.ts](packages/backend/src/middleware/validateRequest.ts))
-that runs a zod schema against body/params/query before the route handler,
-attaches parsed data back onto `req`, and reports failures through the same
-`AppError` → `errorHandler` path every other error uses (`{ success: false,
-message, code, details }`) instead of a one-off shape. Wired
-`RegisterSchema`/`LoginSchema` into `/auth/register` and `/auth/login`
-([auth.route.ts](packages/backend/src/features/auth/auth.route.ts)). Also
-swapped the service and controller signatures from hand-duplicated inline
-types to the zod-inferred `RegisterInput`/`LoginInput`
-([auth.service.ts](packages/backend/src/features/auth/auth.service.ts),
-[auth.controller.ts](packages/backend/src/features/auth/auth.controller.ts)),
-so a schema change now surfaces as a compile error instead of silently
-drifting.
+- **Wire it minimally**: search → filter the collection/sets you already
+  have client-side; "Shop Packs" → `<Link to="/packs">`, which already
+  exists and works.
+- **Remove it from view**: if it's not going to work before you apply, cut
+  it. A smaller app that does everything it shows beats a bigger one with
+  dead UI — the second is what makes a reviewer stop trusting the rest of
+  the app.
 
-## 4. Fix the error handler ordering bug - DONE
+Either is fine. Leaving it as-is is the one option that costs you.
 
-In [index.ts](packages/backend/src/index.ts), `app.use(errorHandler)` is
-registered *before* the `/api/health` route:
+## 2. Not mobile-friendly — currently closer to "unusable" than "not polished"
 
-```
-app.use("/api/v1/", collectionRouter)
-app.use(errorHandler);        // ← registered here
-app.get("/api/health", ...);  // ← but this route is added after
-```
+This is more serious than it might sound, worth being specific about:
 
-Express error middleware only catches errors from routes registered *before*
-it. The health route happens to have its own try/catch so it's not currently
-broken, but it's a landmine for the next route you add after this line.
-Move `app.use(errorHandler)` to the very end of the file, after all routes.
+- **`SideNavbar`** ([SideNavBar.tsx:6](packages/frontend/src/components/layout/navigation/SideNavBar.tsx#L6))
+  is `hidden ... md:flex` — below the `md` breakpoint it disappears
+  entirely, with no hamburger menu or other replacement. On a phone there is
+  **no way to navigate to Packs, Collection, Sets, or Trade** — the app is
+  only reachable from the Dashboard.
+- The search bar in `TopNavBar` is also `hidden md:block` — same story.
+- **`<main>`** ([RootLayout.tsx:19](packages/frontend/src/components/layout/RootLayout.tsx#L19))
+  has a flat `p-20` (5rem / 80px on all sides, every breakpoint) — on a
+  360-390px-wide phone screen that's roughly 40% of the viewport width
+  consumed by padding alone before any content renders.
+- Only 3 of 36 `.tsx` files use any responsive (`sm:`/`md:`/`lg:`) classes
+  at all — this isn't a few rough edges, it's that mobile layout wasn't
+  addressed yet.
 
-## 5. Basic API hardening - DONE
+Given how many people will open a CV link on their phone, this is worth
+fixing before item #1 if you're picking one thing to prioritize. Concretely:
+add a mobile nav (hamburger → drawer/sheet reusing `navSections`, or a
+bottom tab bar — either is a well-worn pattern), make `main`'s padding
+responsive (`p-4 md:p-20` or similar), and give the search bar a mobile
+variant (icon that expands, or a dedicated `/search` route) instead of just
+hiding it.
 
-- Added `helmet()` globally in [app.ts](packages/backend/src/app.ts) — CSP,
-  HSTS, `X-Frame-Options`, etc.
-- Added `express-rate-limit` on `/auth/register` and `/auth/login`
-  ([authRateLimit.ts](packages/backend/src/middleware/authRateLimit.ts)):
-  10 requests per 15-minute window per IP, disabled under `NODE_ENV=test` so
-  it doesn't interfere with the integration test's repeated register/login
-  calls, and reports through the same `AppError` (429, `TOO_MANY_REQUESTS`)
-  as the rest of the API. Manually verified: 11th request within the window
-  returns `429` with `{"success":false,"message":"Too many attempts, please
-  try again later","code":"TOO_MANY_REQUESTS"}`.
+## 3. Deploy it
 
-## 6. Add linting - DONE
-
-Neither package has an ESLint config. Strict TypeScript catches a lot, but
-add `eslint` (+ `typescript-eslint`, + `eslint-plugin-react-hooks` on the
-frontend) and a `lint` script. Cheap to add, and "has linting configured" is
-one of the first things reviewers check for on a repo.
-
-## 7. Set up CI - DONE
-
-A `.github/workflows/ci.yml` that runs on every push/PR: `npm install`,
-`npm run build --workspaces`, `npm run lint`, `npm test`. This is one of the
-highest-signal, lowest-effort things you can add — a green check mark next
-to your commits tells a reviewer more than the code itself does in the first
-few seconds of looking.
-
-## 8. Deploy it
-
-README currently says deployment is still on the roadmap. For a LIA
-application, a live link you can put directly in your CV/LinkedIn matters
-more than almost anything else on this list — being able to say "try it
-here" beats a wall of code every time. Cheapest path given your stack:
+README still says deployment is on the roadmap. For a LIA application, a
+live link you can put directly in your CV/LinkedIn matters more than almost
+anything else on this list — "try it here" beats a wall of code every time.
+Cheapest path given your stack:
 
 - Frontend: Vercel or Netlify (static Vite build).
 - Backend: Render or Fly.io free tier (you're already on Neon for Postgres,
   so no DB migration needed).
 
-Add the live URL to the top of the README.
+Add the live URL to the top of the README. Note this pairs with #1 and #2 —
+don't deploy dead buttons and a broken mobile layout, fix those first so the
+live link is worth clicking.
 
-## 9. Polish for a first-time visitor
+## 4. Polish for a first-time visitor
 
 - Add 2-3 screenshots or a short GIF of the pack-opening flow to the README.
   Reviewers skim; a picture of the actual product gets more attention than
-  the text below it.
-- Fix the small rough edges that are visible in a 5-minute read-through:
-  the `succsess` typo in
-  [collection.controller.ts](packages/backend/src/features/collection/collection.controller.ts#L19)
+  the text below it. Do this after #2 so the screenshots include a mobile
+  shot that actually looks good.
+- Small rough edges from a careful read-through: the `succsess` typo in
+  [collection.controller.ts:19](packages/backend/src/features/collection/collection.controller.ts#L19)
   (inconsistent with `success` used everywhere else), and the plain-text
   `Loading...` in
   [ProtectedRoute.tsx](packages/frontend/src/components/ProtectedRoute.tsx).
-  None of these are bugs, but a careful reviewer notices when the response
-  shape isn't consistent across endpoints.
 
 ## Not urgent — already tracked in your own README roadmap
 
@@ -143,10 +122,16 @@ completeness, not resume-readiness, and you already know about them:
 
 ## Suggested order
 
-1. Commit/clean up in-progress changes (#1)
-2. Tests + validation + the error-handler fix (#2, #3, #4) — these are the
-   substance a technical reviewer will actually check
-3. Lint + CI (#6, #7) — cheap, high visual signal
-4. Deploy + README polish (#8, #9) — what a non-technical or time-pressed
-   reviewer sees first
-5. Security hardening (#5) — good to have, least likely to be checked first
+1. Mobile navigation + layout padding (#2) — the highest-impact fix, since a
+   phone visitor currently can't use the app at all.
+2. Dead buttons — wire or hide (#1).
+3. Deploy (#3) — now the live link actually holds up to a click-through.
+4. README screenshots + small polish (#4).
+
+## Also fixed since the last pass of this doc (2026-08-29)
+
+Tests, input validation, the error-handler ordering bug, rate
+limiting/helmet, ESLint, and CI were all flagged in the previous version of
+this checklist and are now confirmed done and passing. Good progress — the
+backend/infra half of this list is essentially closed out. What's left is
+almost entirely frontend-facing.
