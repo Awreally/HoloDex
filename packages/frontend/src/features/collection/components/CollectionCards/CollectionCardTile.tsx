@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { cardImageUrl } from "../../../lib/images";
-import type { CollectionEntry } from "../types/collection.types";
+import { cardImageUrl } from "../../../../lib/images";
+import type { CollectionEntry } from "../../types/collection.types";
 
 export function CollectionCardTile({ entry }: { entry: CollectionEntry }) {
   const [hovered, setHovered] = useState(false);
