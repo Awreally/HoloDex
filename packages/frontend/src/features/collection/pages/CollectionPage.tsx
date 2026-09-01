@@ -1,18 +1,13 @@
 import { useLoaderData } from "react-router";
-import { CollectionResult } from "../types/collection.types";
-import BrowseSet from "../components/BrowseSet";
+import { CollectionSets } from "../types/collection.types";
+import BrowseSet from "../components/CollectionSets/BrowseSet";
 
 export default function CollectionPage() {
-  const { collection, pagination } = useLoaderData() as CollectionResult;
-
+  const collectionSets = useLoaderData() as CollectionSets[];
 
   return (
-    <div className="w-full">
-      <BrowseSet 
-      collection={collection}
-      pagination={pagination}
-      />
-      </div>
-      
+    <div>
+      <BrowseSet sets={collectionSets} />
+    </div>
   );
 }

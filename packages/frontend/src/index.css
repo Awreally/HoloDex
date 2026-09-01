@@ -100,7 +100,7 @@ button {
   --font-display-lg: "Montserrat";
 
   /* ── Font sizes (v3 fontSize → --text-*, with paired properties) ─ */
-  --text-headline-lg-mobile: 24px;
+  --text-headline-lg-mobile: 20px;
   --text-headline-lg-mobile--line-height: 1.2;
   --text-headline-lg-mobile--font-weight: 700;
 

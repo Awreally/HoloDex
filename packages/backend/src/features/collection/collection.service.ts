@@ -52,6 +52,7 @@ export async function getCollectionSetsForUser(userId: string) {
       name: true,
       total: true,
       logoUrl: true,
+      releaseDate: true,
       _count: {
         select: {
           cards: {

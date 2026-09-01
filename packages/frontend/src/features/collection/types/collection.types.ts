@@ -38,7 +38,6 @@ export type PaginationMeta = {
 export type CollectionQueryParams = {
   page?: number;
   pageSize?: number;
-  setId?: string;
   variant?: "normal" | "reverse" | "holo";
   sortDir?: "asc" | "desc";
 };
@@ -47,3 +46,13 @@ export type CollectionResult = {
   collection: CollectionEntry[];
   pagination: PaginationMeta;
 };
+
+export type CollectionSets = {
+  setId: string;
+  name: string;
+  total: number;
+  logoUrl: string | null;
+  releaseDate: string;
+  owned: number;
+  percentComplete: number;
+}
