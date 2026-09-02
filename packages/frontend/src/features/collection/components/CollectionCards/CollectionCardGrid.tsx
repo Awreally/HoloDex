@@ -16,7 +16,7 @@ export default function CollectionCardGrid({
   return (
     <div>
       <div className="flex flex-col gap-1">
-        <p className="text-headline-lg-s tracking-[0.08em] text-outline uppercase">
+        <p className="text-headline-lg-s text-outline uppercase">
           Binder
         </p>
 
@@ -24,7 +24,7 @@ export default function CollectionCardGrid({
           Collection
         </h1>
 
-        <p className="text-body-md tracking-[0.08em] text-outline">
+        <p className="text-body-md text-outline">
           {pagination.total} card{pagination.total === 1 ? "" : "s"} collected
         </p>
       </div>
@@ -44,7 +44,7 @@ export default function CollectionCardGrid({
 
             disabled={pagination.page <= 1}
 
-            className="text-label-sm tracking-widest text-on-surface-variant uppercase disabled:opacity-40"
+            className="text-label-sm tracking-widest text-on-surface-variant uppercase cursor-pointer disabled:opacity-40"
           >
             Prev
           </button>
@@ -60,7 +60,7 @@ export default function CollectionCardGrid({
 
             disabled={pagination.page >= pagination.totalPages}
 
-            className="text-label-sm tracking-widest text-on-surface-variant uppercase disabled:opacity-40"
+            className="text-label-sm tracking-widest text-on-surface-variant cursor-pointer uppercase disabled:opacity-40"
           >
             Next
           </button>

@@ -16,7 +16,7 @@ export default function OneByOneReveal({
   const isLast = index + 1 >= cards.length;
   const card = cards[index];
   return (
-    <div className="flex w-full flex-col items-center pt-2">
+    <div className="flex w-full flex-col items-center px-4 pt-2 sm:px-0">
       <div className="gap 3.5 mb-5.5 flex items-center">
         <span className="font-mono text-headline-lg-sm text-outline">
           {index + 1} / {cards.length}
@@ -24,29 +24,29 @@ export default function OneByOneReveal({
       </div>
       <div
         onClick={onNext}
-        className="cursor-pointer"
+        className="w-full max-w-68 cursor-pointer"
       >
         <PulledCard card={card} size="large" />
       </div>
 
-      <div className="mt-4 mb-6 flex gap-3">
+      <div className="mt-4 mb-6 flex w-full max-w-68 flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row">
         <button
           onClick={onNext}
-          className="cursor-pointer rounded-lg border-none bg-linear-to-br from-violet-500 to-violet-700 px-7 py-3 text-[14.5px] font-extrabold text-white transition hover:brightness-105 active:scale-[0.98]"
+          className="w-full cursor-pointer rounded-lg border-none bg-linear-to-br from-violet-500 to-violet-700 px-7 py-3 text-[14.5px] font-extrabold text-white transition hover:brightness-105 active:scale-[0.98] sm:w-auto"
         >
           {isLast ? "Finish" : "Next Card"}
         </button>
         {!isLast && (
           <button
             onClick={onOpenAll}
-            className="cursor-pointer rounded-lg border border-zinc-200 bg-white px-7 py-3 text-[14.5px] font-bold text-zinc-600 transition hover:bg-zinc-50"
+            className="w-full cursor-pointer rounded-lg border border-zinc-200 bg-white px-7 py-3 text-[14.5px] font-bold text-zinc-600 transition hover:bg-zinc-50 sm:w-auto"
           >
             Open All
           </button>
         )}
       </div>
 
-      <div className="flex w-full justify-center gap-2 overflow-x-auto border-t border-zinc-100 pt-2.5">
+      <div className="flex w-full flex-wrap justify-center gap-2 overflow-x-auto border-t border-zinc-100 pt-2.5">
         {cards.slice(0, index + 1).map((c, i) => (
           <div
             key={c.id}
