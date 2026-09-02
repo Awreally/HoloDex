@@ -1,14 +1,13 @@
 import { Router } from "express";
 import { openPack } from "./packs.controller";
-import { requireAuth } from "../../middleware/requireAuth";
 import { validateRequest } from "../../middleware/validateRequest";
 import { OpenPackParamsSchema } from "./packs.validation";
-
+import { optionalAuth } from "../../middleware/optionalAuth";
 export const packsRouter = Router();
 
 packsRouter.post(
   "/sets/:setId/open",
-  requireAuth,
+  optionalAuth,
   validateRequest({ params: OpenPackParamsSchema }),
   openPack,
 );

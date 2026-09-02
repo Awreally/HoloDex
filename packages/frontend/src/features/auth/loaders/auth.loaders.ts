@@ -9,6 +9,27 @@ import { redirect } from "react-router";
 import { isApiError } from "../../../lib/api";
 import { RegisterInput } from "../types/auth.types";
 
+// Dashboard redirect
+export async function dashboardLoader() {
+  const { user } = await authLoader();
+  if (!user) return redirect("/packs");
+  return { user };
+}
+
+// Guest redirect
+export async function guestOnlyLoader() {
+  const { user } = await authLoader();
+  if (user) return redirect("/");
+  return null;
+}
+
+// Auth protector UX
+export async function requireAuthLoader() {
+  const { user } = await authLoader();
+  if (!user) return redirect("/login");
+  return { user };
+}
+
 export async function loginAction({ request }: ActionFunctionArgs) {
   const formData = await request.formData();
 
@@ -51,7 +72,7 @@ export async function registerAction({ request }: ActionFunctionArgs) {
 
   try {
     await fetchRegisterUser(input);
-    return redirect("/");
+    return redirect("/packs");
   } catch (err) {
     if (isApiError(err)) {
       return {
@@ -69,7 +90,6 @@ export async function registerAction({ request }: ActionFunctionArgs) {
 export async function authLoader() {
   try {
     const user = await fetchMe();
-
     return { user };
   } catch {
     return { user: null };

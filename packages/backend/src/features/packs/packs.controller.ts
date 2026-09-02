@@ -10,11 +10,7 @@ export async function openPack(
 ): Promise<void> {
   try {
     const { setId } = req.params;
-    const userId = req.user?.userId;
-
-    if (typeof userId !== "string") {
-      return next(new AppError(401, "Authentication required", "AUTHENTICATION_REQUIRED"));
-    }
+    const userId = req.user?.userId ?? null;
 
     const pulledCards = await openPackForSet(setId, userId);
 

@@ -1,10 +1,14 @@
 import { Form } from "react-router";
 export function LogoutButton() {
     return (
-        <Form method="POST" action="/logout" className="flex h-13 w-22 items-center justify-center gap-2 rounded-xl bg-primary font-title-md text-[15px] font-bold text-on-primary shadow-[0_6px_16px_rgba(97,57,144,0.28)] transition-colors hover:bg-primary-container">
-        <button type="submit">
-            Log Out
-        </button>
+        <Form method="POST" action="/logout" className="w-full">
+            <button
+                type="submit"
+                className="flex h-12 w-full items-center justify-center gap-2 rounded-xl border border-surface-variant font-title-md text-[15px] font-semibold text-on-surface transition-colors hover:bg-surface-container-low"
+            >
+                <span className="material-symbols-outlined text-[20px]">logout</span>
+                Log Out
+            </button>
         </Form>
     );
 }

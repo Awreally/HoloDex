@@ -24,6 +24,9 @@ import {
   registerAction,
   authLoader,
   logoutAction,
+  guestOnlyLoader,
+  dashboardLoader,
+  requireAuthLoader,
 } from "../features/auth/loaders/auth.loaders";
 export const router = createBrowserRouter([
   {
@@ -36,15 +39,18 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
+        loader: dashboardLoader,
         element: <DashBoardPage />,
       },
       {
         path: "login",
+        loader: guestOnlyLoader,
         action: loginAction,
         element: <Authpage />,
       },
       {
         path: "register",
+        loader: guestOnlyLoader,
         action: registerAction,
         element: <Authpage />,
       },
@@ -73,6 +79,7 @@ export const router = createBrowserRouter([
       {
         path: "collection",
         id: "collection",
+        loader: requireAuthLoader,
         element: <CollectionLayout />,
         children: [
           {

@@ -12,7 +12,7 @@ export function AuthForm() {
   const isSubmitting = navigation.state === "submitting";
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-background px-6 py-12">
+    <div className="flex w-full items-center  bg-background px-6 py-12">
       <div className="w-full max-w-xl">
         <TabsAuth active={active} setActive={setActive} />
         <div className="mt-8 flex flex-col gap-5">

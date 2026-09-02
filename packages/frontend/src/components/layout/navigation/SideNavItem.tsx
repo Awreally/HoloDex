@@ -2,11 +2,22 @@ import { NavLink } from "react-router";
 import clsx from "clsx";
 import type { NavLinkItem } from "./navigation.config";
 
-export const SideNavItem = ({ to, label, icon, end }: NavLinkItem) => (
+type SideNavItemProps = NavLinkItem & {
+  onNavigate?: () => void;
+};
+
+export const SideNavItem = ({
+  to,
+  label,
+  icon,
+  end,
+  onNavigate,
+}: SideNavItemProps) => (
   <li>
     <NavLink
       to={to}
       end={end}
+      onClick={onNavigate}
       className={({ isActive }) =>
         clsx(
           "relative flex h-11.5 cursor-pointer items-center gap-3 overflow-hidden rounded-[10px] px-3.5 transition-colors",
