@@ -6,8 +6,21 @@ import {
   fetchLogoutUser,
 } from "../api/auth.api";
 import { redirect } from "react-router";
-import { isApiError } from "../../../lib/api";
+import { ApiError, isApiError } from "../../../lib/api";
 import { RegisterInput } from "../types/auth.types";
+
+function extractFieldErrors(err: ApiError): Record<string, string> | undefined {
+  const details = (err.data as { details?: { field: string; message: string }[] })
+    ?.details;
+  if (!details?.length) return undefined;
+
+  const fieldErrors: Record<string, string> = {};
+  for (const { field, message } of details) {
+    const key = field.replace(/^body\./, "");
+    if (!fieldErrors[key]) fieldErrors[key] = message;
+  }
+  return fieldErrors;
+}
 
 // Dashboard redirect
 export async function dashboardLoader() {
@@ -45,7 +58,7 @@ export async function loginAction({ request }: ActionFunctionArgs) {
     return redirect("/");
   } catch (err) {
     if (isApiError(err)) {
-      return { error: err.message };
+      return { error: err.message, fieldErrors: extractFieldErrors(err) };
     }
     return { error: "Couldn't reach the server. Check your connection." };
   }
@@ -77,6 +90,7 @@ export async function registerAction({ request }: ActionFunctionArgs) {
     if (isApiError(err)) {
       return {
         error: err.message,
+        fieldErrors: extractFieldErrors(err),
         values: { email: input.email, username: input.username },
       };
     }
