@@ -29,9 +29,10 @@ export default function BrowseSet({ sets }: BrowseSetProps) {
                     {s.name}
                   </h2>
                   {s.logoUrl ? (
-                    <img 
-                    src={setLogoUrl(s.logoUrl)} alt={s.name} 
-                    className="h-10 w-10 shrink-0 object-contain"
+                    <img
+                      src={setLogoUrl(s.logoUrl)}
+                      alt={s.name}
+                      className="h-10 w-10 shrink-0 object-contain"
                     />
                   ) : (
                     <div className="">{s.name}</div>

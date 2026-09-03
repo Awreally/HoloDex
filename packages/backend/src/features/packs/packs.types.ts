@@ -10,6 +10,8 @@ export type Card = {
 
 export type Variant = "normal" | "reverse" | "holo";
 
+export type RollFn = (() => RollResult) & { options: Weighted[] };
+
 export type Slot =
   | {
       kind: "fixed";
@@ -23,7 +25,7 @@ export type Slot =
     }
   | {
       kind: "roll";
-      roll: () => RollResult;
+      roll: RollFn;
       amount: number;
     };
 

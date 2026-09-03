@@ -26,7 +26,7 @@ export default function OneByOneReveal({
         onClick={onNext}
         className="w-full max-w-68 cursor-pointer"
       >
-        <PulledCard card={card} size="large" />
+        <PulledCard key={card.id} card={card} size="large" />
       </div>
 
       <div className="mt-4 mb-6 flex w-full max-w-68 flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row">

@@ -51,9 +51,7 @@ export default function CollectionCard({
 
       <div className="mt-1.5 flex flex-col items-center">
         <div className="flex items-center gap-1 rounded-full bg-primary px-4 py-1.5 font-headline-lg text-label-sm text-on-secondary uppercase">
-          <span className="material-symbols-outlined">
-            auto_awesome
-          </span>
+          <span className="material-symbols-outlined">auto_awesome</span>
           <p>{cardLabel(entry.card.rarity, entry.variant)}</p>
         </div>
 

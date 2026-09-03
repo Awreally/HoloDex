@@ -25,16 +25,16 @@ export default function PackCard({
           className="w-32 cursor-pointer rounded-xl shadow-[0_16px_30px_rgba(26,28,28,0.18)] transition-transform hover:-translate-y-0.5 active:translate-y-0 active:scale-95 sm:w-40"
         />
       </div>
-      <div className="flex w-full max-w-sm flex-1 flex-col items-center text-center sm:max-w-none sm:items-start sm:text-left">
+      <div className="flex w-full max-w-sm flex-col items-center text-center sm:w-fit sm:max-w-none">
         <p className="text-headline-lg-s text-outline uppercase">
           Booster Pack
         </p>
         <h1 className="text-headline-xl text-on-surface">{setName}</h1>
-        <div className="mb-6 flex w-full flex-col gap-2.5 rounded-2xl border border-[#e2e2e2] bg-[#f9f9f9] p-4.5">
+        <div className="mb-6 flex w-fit max-w-full flex-col gap-2.5 rounded-2xl border border-[#e2e2e2] bg-[#f9f9f9] p-4.5">
           <p className="text-headline-lg-s text-outline uppercase">
             What's Inside
           </p>
-          <div className="text-on-surface] flex items-center gap-2.5 text-headline-lg-sm">
+          <div className="flex items-center gap-2.5 text-headline-lg-sm text-on-surface">
             <span className="material-symbols-outlined text-[18px] text-primary">
               style
             </span>
