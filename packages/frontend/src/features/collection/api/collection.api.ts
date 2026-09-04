@@ -10,6 +10,7 @@ import { ApiSuccess } from "../../auth/types/auth.types";
 
 type CollectionResponse = ApiSuccess<CollectionEntry[]> & {
   pagination: PaginationMeta;
+  hasReverseVariant: boolean;
 };
 
 export async function fetchGetCollection(
@@ -26,7 +27,11 @@ export async function fetchGetCollection(
   const res = await apiFetch<CollectionResponse>(
     `/collection/sets/${setId}/cards${query ? `?${query}` : ""}`,
   );
-  return { collection: res.data, pagination: res.pagination };
+  return {
+    collection: res.data,
+    pagination: res.pagination,
+    hasReverseVariant: res.hasReverseVariant,
+  };
 }
 
 export async function fetchGetCollectionSets(): Promise<CollectionSets[]> {

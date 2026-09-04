@@ -6,11 +6,13 @@ export function openPack(cards: Card[], recipe: PackRecipe): PulledCard[] {
   const pack: PulledCard[] = [];
   const used = new Set<string>();
 
+  const sig = (id: string, variant: Variant) => `${id}:${variant}`;
+
   const draw = (pool: Card[], amount: number, variant: Variant) => {
-    const available = pool.filter((card) => !used.has(card.id));
+    const available = pool.filter((card) => !used.has(sig(card.id, variant)));
     const drawn = pickRandom(available, amount);
     for (const card of drawn) {
-      used.add(card.id);
+      used.add(sig(card.id, variant));
       pack.push({ ...card, pulledVariant: variant });
     }
   };
@@ -31,6 +33,9 @@ export function openPack(cards: Card[], recipe: PackRecipe): PulledCard[] {
           cardHasVariant(card, result.variant),
       );
       draw(pool, slot.amount, result.variant);
+    } else if (slot.kind === "reverseAny") {
+      const pool = cards.filter((card) => card.reverse);
+      draw(pool, slot.amount, "reverse");
     } else if (slot.kind === "energy") {
       const pool = cards.filter((card) => card.category === "Energy");
       draw(pool, slot.amount, "normal");

@@ -7,9 +7,21 @@ export function useCollectionFilters() {
   const sortDir = searchParams.get("sortDir");
   const page = Number(searchParams.get("page") ?? 1);
 
-  function setVariant(variant: string) {
+  function setVariant(variant: string | null) {
     const next = new URLSearchParams(searchParams);
-    next.set("variant", variant);
+    if (variant) {
+      next.set("variant", variant);
+    } else {
+      next.delete("variant");
+    }
+    next.set("page", "1");
+
+    setSearchParams(next);
+  }
+
+  function setSortDir(sortDir: "asc" | "desc") {
+    const next = new URLSearchParams(searchParams);
+    next.set("sortDir", sortDir);
     next.set("page", "1");
 
     setSearchParams(next);
@@ -26,6 +38,7 @@ export function useCollectionFilters() {
     sortDir,
     page,
     setVariant,
+    setSortDir,
     goToPage
   };
 }

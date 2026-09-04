@@ -1,3 +1,5 @@
+import { Variant } from "../../packs/types/packs.types";
+
 export type CollectionCard = {
   id: string;
   name: string;
@@ -16,7 +18,7 @@ export type CollectionEntry = {
   id: string;
   userId: string;
   cardId: string;
-  variant: string;
+  variant: Variant;
   quantity: number;
   obtainedAt: string;
   card: CollectionCard;
@@ -45,6 +47,7 @@ export type CollectionQueryParams = {
 export type CollectionResult = {
   collection: CollectionEntry[];
   pagination: PaginationMeta;
+  hasReverseVariant: boolean;
 };
 
 export type CollectionSets = {

@@ -1,5 +1,5 @@
 import type { CardSummary } from "../../types/packs.types";
-import { cardLabel } from "../../../../lib/cards";
+import { cardLabel, cardLabelColor } from "../../../../lib/cards";
 import CardFace from "./CardFace";
 
 type PulledCardProps = {
@@ -23,7 +23,7 @@ export default function PulledCard({ card, size = "large" }: PulledCardProps) {
       <CardFace card={card} />
 
       <div className="mt-1.5 flex flex-col items-center">
-        <div className="flex items-center gap-3 rounded-full bg-primary px-4 py-1.5 font-headline-lg text-label-sm text-on-secondary uppercase">
+        <div className={`flex items-center gap-3 rounded-full ${cardLabelColor(card.rarity, card.pulledVariant)} px-4 py-1.5 font-headline-lg text-label-sm text-on-secondary uppercase`}>
           <span className="material-symbols-outlined">
             auto_awesome
           </span>

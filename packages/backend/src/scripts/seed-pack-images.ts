@@ -1,9 +1,7 @@
 import { prisma } from "../lib/prisma";
 
 const PACK_IMAGES: Record<string, string> = {
-  base1: "https://res.cloudinary.com/dnqq8rkc3/image/upload/v1787660682/Baseset_tcumwx.png",
-  base2: "https://res.cloudinary.com/dnqq8rkc3/image/upload/v1787660687/Jungle_aysq1q.png",
-  "sv03.5": "https://res.cloudinary.com/dnqq8rkc3/image/upload/v1787659511/sv-151-mew_udlrks.jpg",
+  base5: "https://res.cloudinary.com/dnqq8rkc3/image/upload/v1788514743/base5_waelqo.png",
 };
 
 async function main() {

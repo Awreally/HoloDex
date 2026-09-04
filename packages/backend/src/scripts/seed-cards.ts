@@ -1,6 +1,6 @@
 import { prisma } from "../lib/prisma";
 
-const SET_IDS = ["base1", "base2", "sv03.5"];
+const SET_IDS = ["base5"];
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
