@@ -25,7 +25,7 @@ export async function getCollection(
     }
     const query = req.query as unknown as CollectionQuery;
 
-    const { entries, pagination } = await getCollectionForUser(
+    const { entries, pagination, hasReverseVariant } = await getCollectionForUser(
       userId,
       setId,
       query,
@@ -34,6 +34,7 @@ export async function getCollection(
       success: true,
       data: entries,
       pagination,
+      hasReverseVariant,
     });
   } catch (err) {
     next(err);

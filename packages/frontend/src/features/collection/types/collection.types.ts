@@ -47,6 +47,7 @@ export type CollectionQueryParams = {
 export type CollectionResult = {
   collection: CollectionEntry[];
   pagination: PaginationMeta;
+  hasReverseVariant: boolean;
 };
 
 export type CollectionSets = {

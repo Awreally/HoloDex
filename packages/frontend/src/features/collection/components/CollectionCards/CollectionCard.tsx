@@ -52,7 +52,7 @@ export default function CollectionCard({
             <img
               src={cardImageUrl(base, "low")}
               alt={entry.card.name}
-              className="block w-full"
+              className="block aspect-5/7 w-full object-cover"
             />
             {expanded && (
               <img
@@ -73,7 +73,7 @@ export default function CollectionCard({
       </div>
 
       <div className="mt-1.5 flex flex-col items-center">
-        <div className={`flex items-center gap-1 rounded-full ${cardLabelColor(entry.card.rarity, entry.variant)} px-4 py-1.5 font-headline-lg text-headline-lg-s text-on-secondary uppercase`}>
+        <div className={`flex items-center gap-1 rounded-full ${cardLabelColor(entry.card.rarity, entry.variant)} px-4 py-1.5 font-headline-lg text-headline-lg-s text-on-secondary `}>
           <p>{cardLabel(entry.card.rarity, entry.variant)}</p>
         </div>
 

@@ -14,7 +14,7 @@ export async function getCollectionForUser(
     ...(variant && { variant }),
   };
 
-  const [entries, total] = await Promise.all([
+  const [entries, total, reverseCardCount] = await Promise.all([
     prisma.userCard.findMany({
       where,
       include: {
@@ -29,6 +29,7 @@ export async function getCollectionForUser(
       take: pageSize,
     }),
     prisma.userCard.count({ where }),
+    prisma.card.count({ where: { setId, reverse: true } }),
   ]);
 
   return {
@@ -39,6 +40,7 @@ export async function getCollectionForUser(
       total,
       totalPages: Math.ceil(total / pageSize),
     },
+    hasReverseVariant: reverseCardCount > 0,
   };
 }
 

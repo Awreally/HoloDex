@@ -2,18 +2,24 @@ import { Link } from "react-router";
 import { CollectionEntry, PaginationMeta } from "../../types/collection.types";
 import { useCollectionFilters } from "../../hooks/collection.hooks";
 import { CollectionCardTile } from "./CollectionCardTile";
+import { VARIANT_OPTIONS } from "../../utils/collection.constants";
 
 type CollectionCardGridProps = {
   collection: CollectionEntry[];
   pagination: PaginationMeta;
+  hasReverseVariant: boolean;
 };
 
 export default function CollectionCardGrid({
   collection,
   pagination,
+  hasReverseVariant,
 }: CollectionCardGridProps) {
-    const { goToPage } = useCollectionFilters();
-    
+    const { variant, sortDir, goToPage, setVariant, setSortDir } = useCollectionFilters();
+    const variantOptions = VARIANT_OPTIONS.filter(
+      (option) => option.value !== "reverse" || hasReverseVariant,
+    );
+
   return (
     <div>
       <div className="flex flex-col gap-1">
@@ -28,6 +34,39 @@ export default function CollectionCardGrid({
         <p className="text-body-md text-outline">
           {pagination.total} card{pagination.total === 1 ? "" : "s"} collected
         </p>
+      </div>
+
+      <div className="mt-5.5 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2">
+          {variantOptions.map((option) => {
+            const active = (variant ?? null) === option.value;
+            return (
+              <button
+                key={option.label}
+                type="button"
+                onClick={() => setVariant(option.value)}
+                className={`cursor-pointer rounded-full border px-4 py-1.5 text-label-sm tracking-widest uppercase transition ${
+                  active
+                    ? "border-transparent bg-primary text-on-primary"
+                    : "border-outline-variant text-outline hover:border-outline"
+                }`}
+              >
+                {option.label}
+              </button>
+            );
+          })}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => setSortDir(sortDir === "desc" ? "asc" : "desc")}
+          className="flex cursor-pointer items-center gap-1 text-label-sm tracking-widest text-outline uppercase hover:text-on-surface"
+        >
+          <span className="material-symbols-outlined text-[18px]">
+            {sortDir === "desc" ? "arrow_downward" : "arrow_upward"}
+          </span>
+          Sort
+        </button>
       </div>
 
       {collection.length === 0 ? (
