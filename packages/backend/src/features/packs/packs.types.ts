@@ -13,21 +13,10 @@ export type Variant = "normal" | "reverse" | "holo";
 export type RollFn = (() => RollResult) & { options: Weighted[] };
 
 export type Slot =
-  | {
-      kind: "fixed";
-      rarity: string;
-      variant: Variant;
-      amount: number;
-    }
-  | {
-      kind: "energy";
-      amount: number;
-    }
-  | {
-      kind: "roll";
-      roll: RollFn;
-      amount: number;
-    };
+  | { kind: "fixed"; rarity: string; variant: Variant; amount: number }
+  | { kind: "roll"; roll: RollFn; amount: number }
+  | { kind: "reverseAny"; amount: number }
+  | { kind: "energy"; amount: number };
 
 export type PackRecipe = Slot[];
 

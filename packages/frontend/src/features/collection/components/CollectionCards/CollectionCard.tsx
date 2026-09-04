@@ -1,3 +1,4 @@
+import { useState, type PointerEvent } from "react";
 import { cardImageUrl } from "../../../../lib/images";
 import { cardLabel } from "../../../../lib/cards";
 import type { CollectionEntry } from "../../types/collection.types";
@@ -16,12 +17,34 @@ export default function CollectionCard({
   onHighResLoad,
 }: CollectionCardProps) {
   const base = entry.card.imageLarge ?? entry.card.imageSmall;
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  function handlePointerMove(e: PointerEvent<HTMLDivElement>) {
+    if (e.pointerType !== "mouse") return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+    setTilt({ x: (0.5 - py) * 20, y: (px - 0.5) * 20 });
+  }
+
+  function resetTilt() {
+    setTilt({ x: 0, y: 0 });
+  }
 
   return (
     <div className="flex w-full flex-col items-center">
       <div
+        onPointerMove={expanded ? handlePointerMove : undefined}
+        onPointerLeave={expanded ? resetTilt : undefined}
+        style={
+          expanded
+            ? {
+                transform: `perspective(800px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.5)`,
+              }
+            : undefined
+        }
         className={`relative w-full overflow-hidden rounded-lg border border-surface-variant shadow-sm transition-transform duration-200 ease-out ${
-          expanded ? "z-10 scale-150 shadow-xl" : ""
+          expanded ? "z-10 shadow-xl" : ""
         }`}
       >
         {base ? (
