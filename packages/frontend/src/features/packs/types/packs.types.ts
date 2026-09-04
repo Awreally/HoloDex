@@ -1,7 +1,5 @@
 export type Variant = "normal" | "reverse" | "holo";
 
-
-
 export type CardSummary = {
   id: string;
   name: string;
@@ -22,10 +20,13 @@ export type SetsPack = {
   logoUrl: string | null;
   packImageUrl: string | null;
   playable: boolean;
-}
+  packSize: number;
+};
 
 export type UseSetsResult = {
   sets: SetsPack[];
   isLoading: boolean;
   error: string | null;
-}
+};
+
+export type RarityGroup = "common" | "uncommon" | "rare" | "doubleRare" | "ultra" | "special";

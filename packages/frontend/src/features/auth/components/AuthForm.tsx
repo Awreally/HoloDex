@@ -1,18 +1,23 @@
 import { useState } from "react";
-import { Form, useActionData, useNavigation } from "react-router";
+import { Form, useActionData, useLocation, useNavigation } from "react-router";
 import TextInput from "../../../components/layout/ui/input/TextInput";
 import { TabsAuth } from "./TabsAuth";
 
 export function AuthForm() {
-  const [active, setActive] = useState<"signin" | "register">("signin");
+  const location = useLocation();
+  const [active, setActive] = useState<"signin" | "register">(
+    location.pathname === "/register" ? "register" : "signin",
+  );
   const isSignin = active === "signin";
 
   const navigation = useNavigation();
-  const actionData = useActionData() as { error?: string } | undefined;
+  const actionData = useActionData() as
+    | { error?: string; fieldErrors?: Record<string, string> }
+    | undefined;
   const isSubmitting = navigation.state === "submitting";
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-background px-6 py-12">
+    <div className="flex w-full items-center justify-center  bg-background px-6 py-12">
       <div className="w-full max-w-xl">
         <TabsAuth active={active} setActive={setActive} />
         <div className="mt-8 flex flex-col gap-5">
@@ -40,6 +45,7 @@ export function AuthForm() {
                     type="text"
                     placeholder="Lollo"
                     required
+                    error={actionData?.fieldErrors?.firstname}
                   />
                   <TextInput
                     label="Last Name"
@@ -47,6 +53,7 @@ export function AuthForm() {
                     type="text"
                     placeholder="Lovelace"
                     required
+                    error={actionData?.fieldErrors?.lastname}
                   />
                 </div>
                 <TextInput
@@ -55,6 +62,7 @@ export function AuthForm() {
                   type="text"
                   placeholder="Lollo-p"
                   required
+                  error={actionData?.fieldErrors?.username}
                 />
               </div>
             )}
@@ -65,6 +73,7 @@ export function AuthForm() {
                 type="email"
                 placeholder="you@example.com"
                 required
+                error={actionData?.fieldErrors?.email}
               />
               <TextInput
                 label="Password"
@@ -72,10 +81,11 @@ export function AuthForm() {
                 type="password"
                 placeholder="••••••••"
                 required
+                error={actionData?.fieldErrors?.password}
               />
             </div>
 
-            {actionData?.error && (
+            {actionData?.error && !actionData.fieldErrors && (
               <p className="text-sm text-error">{actionData.error}</p>
             )}
 

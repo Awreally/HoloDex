@@ -1,29 +1,13 @@
 import { useLoaderData } from "react-router";
-import { CollectionCardTile } from "../components/CollectionCardTile";
-import { CollectionEntry } from "../types/collection.types";
+import { CollectionSets } from "../types/collection.types";
+import BrowseSet from "../components/CollectionSets/BrowseSet";
 
 export default function CollectionPage() {
-  const collection = useLoaderData() as CollectionEntry[];
+  const collectionSets = useLoaderData() as CollectionSets[];
 
   return (
-    <div className="w-full">
-      <div className="flex flex-col gap-1">
-      <p className="text-headline-lg-s tracking-[0.08em] text-outline uppercase">
-        Binder
-      </p>
-      <h1 className="text-display-lg text-on-surface font-headline-lg">
-        Collection
-      </h1>
-      <p className="text-body-md tracking-[0.08em] text-outline">
-        {collection.length} card{collection.length === 1 ? "" : "s"} collected
-      </p>
-      </div>
-
-      <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(132px,1fr))] gap-3.5">
-        {collection.map((c) => (
-          <CollectionCardTile key={c.id} entry={c} />
-        ))}
-      </div>
+    <div>
+      <BrowseSet sets={collectionSets} />
     </div>
   );
 }

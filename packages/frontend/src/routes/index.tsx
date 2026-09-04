@@ -7,33 +7,52 @@ import { DashBoardPage } from "../pages/DashBoardPage";
 import { TradePage } from "../pages/TradePage";
 import Authpage from "../features/auth/pages/AuthPage";
 import CollectionPage from "../features/collection/pages/CollectionPage";
+import CollectionGridPage from "../features/collection/pages/CollectionGridPage";
 import { PackLayout } from "../features/packs/page/PackLayout";
-import { packsLoader, openPackAction } from "../features/packs/loaders/packs.loader";
-import { collectionLoader } from "../features/collection/loaders/collection.loaders";
+import { CollectionLayout } from "../features/collection/pages/CollectionLayout";
+import {
+  packsLoader,
+  openPackAction,
+} from "../features/packs/loaders/packs.loader";
+import {
+  collectionLoader,
+  collectionSetsLoader,
+} from "../features/collection/loaders/collection.loaders";
 import { setsLoader } from "../features/sets/loader/sets.loader";
-import { loginAction, registerAction, authLoader, logoutAction } from "../features/auth/loaders/auth.loaders";
+import {
+  loginAction,
+  registerAction,
+  authLoader,
+  logoutAction,
+  guestOnlyLoader,
+  dashboardLoader,
+  requireAuthLoader,
+} from "../features/auth/loaders/auth.loaders";
 export const router = createBrowserRouter([
   {
     id: "root",
     path: "/",
-    loader: authLoader, 
+    loader: authLoader,
     element: <RootLayout />,
     errorElement: <RouteErrorBoundary />,
     hydrateFallbackElement: <RouteLoading />,
     children: [
       {
         index: true,
+        loader: dashboardLoader,
         element: <DashBoardPage />,
       },
       {
         path: "login",
+        loader: guestOnlyLoader,
         action: loginAction,
         element: <Authpage />,
       },
       {
         path: "register",
+        loader: guestOnlyLoader,
         action: registerAction,
-        element: <Authpage />
+        element: <Authpage />,
       },
       {
         path: "logout",
@@ -56,11 +75,24 @@ export const router = createBrowserRouter([
           },
         ],
       },
-    
+
       {
         path: "collection",
-        loader: collectionLoader,
-        element: <CollectionPage />,
+        id: "collection",
+        loader: requireAuthLoader,
+        element: <CollectionLayout />,
+        children: [
+          {
+            index: true,
+            loader: collectionSetsLoader,
+            element: <CollectionPage />,
+          },
+          {
+            path: ":setId",
+            loader: collectionLoader,
+            element: <CollectionGridPage />,
+          },
+        ],
       },
       {
         path: "sets",

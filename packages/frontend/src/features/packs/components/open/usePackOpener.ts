@@ -17,7 +17,6 @@ export function usePackOpener(onComplete?: (cards: CardSummary[]) => void) {
       setStage("done");
       onComplete?.(cards);
     } else {
-      console.log(cards);
       setIndex((i) => i + 1);
     }
   }, [cards, index, onComplete]);

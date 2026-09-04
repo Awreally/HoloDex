@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { openPack } from "./packs.roll";
+import { openPack, weightedRoll } from "./engine/engine.index";
 import type { Card, PackRecipe } from "./packs.types";
 
 function makeCard(overrides: Partial<Card> & { id: string }): Card {
@@ -29,7 +29,9 @@ describe("openPack", () => {
 
     expect(result).toHaveLength(2);
     expect(
-      result.every((c) => c.rarity === "Common" && c.pulledVariant === "normal"),
+      result.every(
+        (c) => c.rarity === "Common" && c.pulledVariant === "normal",
+      ),
     ).toBe(true);
     expect(new Set(result.map((c) => c.id)).size).toBe(2);
   });
@@ -57,7 +59,9 @@ describe("openPack", () => {
 
     expect(result).toHaveLength(2);
     expect(
-      result.every((c) => c.category === "Energy" && c.pulledVariant === "normal"),
+      result.every(
+        (c) => c.category === "Energy" && c.pulledVariant === "normal",
+      ),
     ).toBe(true);
   });
 
@@ -70,7 +74,9 @@ describe("openPack", () => {
       {
         kind: "roll",
         amount: 1,
-        roll: () => ({ rarity: "Ultra Rare", variant: "holo" }),
+        roll: weightedRoll([
+          { rarity: "Ultra Rare", variant: "holo", weight: 1 },
+        ]),
       },
     ];
 

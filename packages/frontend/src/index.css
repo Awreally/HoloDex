@@ -1,27 +1,297 @@
 @import "tailwindcss";
 
 body {
-  @apply bg-background text-on-background font-body-md text-body-md antialiased;
+  @apply overflow-x-hidden bg-background font-body-md text-body-md text-on-background antialiased;
+}
+h1,
+h2,
+h3,
+h4 {
+  @apply font-headline-lg;
+}
+
+button {
+  @apply font-headline-lg;
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px) scale(0.94); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-@keyframes holoSheen {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+@keyframes holoSweep {
+  0% {
+    background-position:
+      0% 50%,
+      120% 0;
+    opacity: 0.35;
+  }
+  50% {
+    background-position:
+      100% 50%,
+      -20% 0;
+    opacity: 0.7;
+  }
+  100% {
+    background-position:
+      0% 50%,
+      120% 0;
+    opacity: 0.35;
+  }
 }
 
-@keyframes shineSweep {
-  0% { transform: translateX(-60%) skewX(-15deg); }
-  100% { transform: translateX(160%) skewX(-15deg); }
+@keyframes holoPrism {
+  0% {
+    background-position:
+      0% 0%,
+      50% 0%,
+      0% 50%;
+    filter: hue-rotate(0deg);
+    opacity: 0.5;
+  }
+  50% {
+    background-position:
+      100% 100%,
+      50% 100%,
+      100% 50%;
+    filter: hue-rotate(28deg);
+    opacity: 0.82;
+  }
+  100% {
+    background-position:
+      0% 0%,
+      50% 0%,
+      0% 50%;
+    filter: hue-rotate(0deg);
+    opacity: 0.5;
+  }
+}
+
+@keyframes holoFlash {
+  0% {
+    transform: translateX(-140%) rotate(18deg);
+    opacity: 0;
+  }
+  22% {
+    opacity: 0;
+  }
+  42% {
+    opacity: 0.85;
+  }
+  62% {
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(140%) rotate(18deg);
+    opacity: 0;
+  }
+}
+
+@property --holo-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes holoShift {
+  0% {
+    --holo-angle: 0deg;
+    transform: translate(-3%, -3%);
+  }
+  50% {
+    --holo-angle: 180deg;
+    transform: translate(3%, 3%);
+  }
+  100% {
+    --holo-angle: 360deg;
+    transform: translate(-3%, -3%);
+  }
+}
+
+@keyframes faceGleam {
+  0% {
+    transform: translateX(0) skewX(-14deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(360%) skewX(-14deg);
+    opacity: 0;
+  }
+}
+
+.pack-reverse-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background:
+    linear-gradient(
+      115deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0) 34%,
+      rgba(255, 255, 255, 0.65) 48%,
+      rgba(173, 255, 235, 0.35) 52%,
+      rgba(255, 255, 255, 0) 66%,
+      transparent 100%
+    ),
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 85, 187, 0.18) 0 8px,
+      rgba(63, 218, 255, 0.16) 8px 16px,
+      rgba(255, 232, 82, 0.15) 16px 24px
+    );
+  background-size:
+    220% 220%,
+    180% 180%;
+  opacity: 0.45;
+  animation: holoSweep 3.8s ease-in-out infinite;
+}
+
+.pack-reverse-card:hover::after {
+  opacity: 0.75;
+}
+
+.pack-holo-card {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.6),
+    0 16px 34px rgba(115, 75, 162, 0.22),
+    0 0 34px rgba(63, 218, 255, 0.22);
+}
+
+.pack-holo-card::before,
+.pack-holo-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.pack-holo-card::before {
+  mix-blend-mode: color-dodge;
+  background:
+    radial-gradient(
+      circle at 18% 22%,
+      rgba(255, 255, 255, 0.85),
+      transparent 12%
+    ),
+    linear-gradient(
+      125deg,
+      rgba(255, 72, 193, 0.22),
+      rgba(70, 211, 255, 0.28),
+      rgba(255, 237, 97, 0.2),
+      rgba(116, 255, 183, 0.24),
+      rgba(255, 72, 193, 0.22)
+    ),
+    repeating-linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0.16) 0 2px,
+      transparent 2px 9px
+    );
+  background-size:
+    180% 180%,
+    260% 260%,
+    120% 120%;
+  animation: holoPrism 4.8s ease-in-out infinite;
+}
+
+.pack-holo-card::after {
+  top: -22%;
+  bottom: -22%;
+  left: 22%;
+  width: 34%;
+  inset-inline-end: auto;
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.9),
+    rgba(163, 255, 246, 0.58),
+    transparent
+  );
+  filter: blur(2px);
+  animation: holoFlash 2.6s ease-in-out infinite;
+}
+
+.pack-rare-holo-card {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.72),
+    0 14px 32px rgba(32, 29, 78, 0.18),
+    0 0 24px rgba(255, 255, 255, 0.22);
+}
+
+.pack-rare-holo-card::before,
+.pack-rare-holo-card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.pack-rare-holo-card::before {
+  inset: -6%;
+  mix-blend-mode: color-dodge;
+  opacity: 0.5;
+  background: conic-gradient(
+    from var(--holo-angle),
+    #ff4d6d,
+    #ffcb09,
+    #4ade80,
+    #38bdf8,
+    #a855f7,
+    #ff4d6d
+  );
+  animation: holoShift 4.5s linear infinite;
+}
+
+.pack-rare-holo-card::after {
+  top: -30%;
+  bottom: -30%;
+  left: -60%;
+  width: 55%;
+  inset-inline-end: auto;
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0),
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(255, 255, 255, 0)
+  );
+  filter: blur(14px);
+  animation: faceGleam 3.2s ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pack-reverse-card::after,
+  .pack-holo-card::before,
+  .pack-holo-card::after,
+  .pack-rare-holo-card::before,
+  .pack-rare-holo-card::after {
+    animation: none;
+  }
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --color-rarity-common: #7c8799;
+  --color-rarity-uncommon: #4fb477;
+  --color-rarity-rare: #3f7edb;
+  --color-rarity-double: #35b7c9;
+  --color-rarity-ultra: #8b5cf6;
+  --color-rarity-special: #d9a62e;
+
   --color-inverse-on-surface: #f0f1f1;
   --color-on-secondary: #ffffff;
   --color-surface-container-low: #f3f3f4;
@@ -73,6 +343,7 @@ body {
   --radius: 0.25rem; /* the v3 DEFAULT key becomes the bare --radius */
   --radius-lg: 0.5rem;
   --radius-xl: 0.75rem;
+  --radius-border: 2rem;
   --radius-full: 9999px;
 
   /* ── Spacing (v3 spacing → --spacing-*) ───────────────────────── */
@@ -92,17 +363,17 @@ body {
   --font-display-lg: "Montserrat";
 
   /* ── Font sizes (v3 fontSize → --text-*, with paired properties) ─ */
-  --text-headline-lg-mobile: 24px;
+  --text-headline-lg-mobile: 20px;
   --text-headline-lg-mobile--line-height: 1.2;
   --text-headline-lg-mobile--font-weight: 700;
 
   --text-headline-lg-s: 12px;
   --text-headline-lg-s--line-height: 1.2;
-  --text-headaline-lg-s--font-weight: 400;
+  --text-headline-lg-s--font-weight: 600;
 
   --text-headline-lg-sm: 14px;
   --text-headline-lg-sm--line-height: 1.2;
-  --text-headaline-lg-sm--font-weight: 400;
+  --text-headline-lg-sm--font-weight: 400;
 
   --text-body-lg: 18px;
   --text-body-lg--line-height: 1.6;
@@ -112,7 +383,10 @@ body {
   --text-headline-lg--line-height: 1.2;
   --text-headline-lg--font-weight: 700;
 
-  --text-label-sm: 12px;
+  --text-headline-xl: 64px;
+  --text-headline-xl--line-height: 1.2 --text-headline-xl--font-weight: 800;
+
+  --text-label-sm: 13px;
   --text-label-sm--line-height: 1;
   --text-label-sm--letter-spacing: 0.05em;
   --text-label-sm--font-weight: 600;
@@ -130,4 +404,5 @@ body {
   --text-display-lg--letter-spacing: -0.02em;
   --text-display-lg--font-weight: 700;
 
+  --text-button: 15px --text-button--font-weight: 700;
 }

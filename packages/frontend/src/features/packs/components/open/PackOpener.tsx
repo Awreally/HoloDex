@@ -41,6 +41,7 @@ export default function PackOpener({
         <PackCard
           setName={selectedPack.name}
           packImageUrl={selectedPack.packImageUrl}
+          packSize={selectedPack.packSize}
           packCost={packCost}
           isLoading={isOpening}
           onOpen={onOpen}

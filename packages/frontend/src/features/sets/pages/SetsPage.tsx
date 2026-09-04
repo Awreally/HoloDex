@@ -18,7 +18,11 @@ export default function SetsPage() {
       {sets.map((set) =>(
         <div key={set.id}>
            {set.logoUrl ? (
-             <img src={setLogoUrl(set.logoUrl)} alt={set.name} />
+             <img
+               src={setLogoUrl(set.logoUrl)}
+               alt={set.name}
+               className="aspect-video w-full object-contain"
+             />
             ) : (
               <div className="">
                         {set.name}
