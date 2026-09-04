@@ -18,10 +18,7 @@ export function OpenPackPage() {
 
   return (
     <div>
-      <PackOpener
-        selectedPack={selectedPack}
-        onComplete={(cards) => console.log(cards)}
-      />
+      <PackOpener selectedPack={selectedPack} />
     </div>
   );
 }
