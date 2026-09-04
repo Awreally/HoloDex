@@ -21,10 +21,12 @@ export type SetsPack = {
   packImageUrl: string | null;
   playable: boolean;
   packSize: number;
-}
+};
 
 export type UseSetsResult = {
   sets: SetsPack[];
   isLoading: boolean;
   error: string | null;
-}
+};
+
+export type RarityGroup = "common" | "uncommon" | "rare" | "doubleRare" | "ultra" | "special";

@@ -1,6 +1,6 @@
 import { useState, type PointerEvent } from "react";
 import { cardImageUrl } from "../../../../lib/images";
-import { cardLabel } from "../../../../lib/cards";
+import { cardLabel, cardLabelColor } from "../../../../lib/cards";
 import type { CollectionEntry } from "../../types/collection.types";
 
 type CollectionCardProps = {
@@ -73,12 +73,11 @@ export default function CollectionCard({
       </div>
 
       <div className="mt-1.5 flex flex-col items-center">
-        <div className="flex items-center gap-1 rounded-full bg-primary px-4 py-1.5 font-headline-lg text-label-sm text-on-secondary uppercase">
-          <span className="material-symbols-outlined">auto_awesome</span>
+        <div className={`flex items-center gap-1 rounded-full ${cardLabelColor(entry.card.rarity, entry.variant)} px-4 py-1.5 font-headline-lg text-headline-lg-s text-on-secondary uppercase`}>
           <p>{cardLabel(entry.card.rarity, entry.variant)}</p>
         </div>
 
-        <p className="mt-2 text-center text-sm font-bold">{entry.card.name}</p>
+        <p className="mt-1 text-center text-sm font-bold">{entry.card.name}</p>
       </div>
     </div>
   );
