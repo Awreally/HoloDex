@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet, useLoaderData } from "react-router";
+import { Outlet, useLoaderData, ScrollRestoration } from "react-router";
 import Footer from "./Footer";
 import TopNavBar from "./navigation/TopNavBar";
 import { MobileTopBar } from "./navigation/MobileTopBar";
@@ -13,7 +13,7 @@ export default function RootLayout() {
 
   return (
     <AuthProvider user={user}>
-      <div>
+      <div className="flex min-h-dvh flex-col">
         <TopNavBar />
         <MobileTopBar onOpenMenu={() => setMobileNavOpen(true)} />
 
@@ -23,12 +23,13 @@ export default function RootLayout() {
             onClose={() => setMobileNavOpen(false)}
           />
 
-          <main className="flex-1 flex-row p-4 md:p-20">
+          <main className="flex-1 p-1 md:p-20">
             <Outlet />
           </main>
         </div>
 
         <Footer />
+        <ScrollRestoration />
       </div>
     </AuthProvider>
   );
