@@ -73,11 +73,14 @@ export default function CollectionCard({
       </div>
 
       <div className="mt-1.5 flex flex-col items-center">
-        <div className={`flex items-center gap-1 rounded-full ${cardLabelColor(entry.card.rarity, entry.variant)} px-4 py-1.5 font-headline-lg text-headline-lg-s text-on-secondary `}>
+        <div className={`flex items-center gap-2 rounded-xl ${cardLabelColor(entry.card.rarity, entry.variant)} px-4 py-1 font-headline-lg text-headline-lg-s text-on-secondary uppercase`}>
+          <span className="material-symbols-outlined">
+            star
+          </span>
           <p>{cardLabel(entry.card.rarity, entry.variant)}</p>
         </div>
 
-        <p className="mt-1 text-center text-sm font-bold">{entry.card.name}</p>
+        <p className="hidden sm:block mt-1 text-center text-sm font-bold">{entry.card.name}</p>
       </div>
     </div>
   );

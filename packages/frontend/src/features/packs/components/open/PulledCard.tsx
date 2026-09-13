@@ -15,17 +15,17 @@ export default function PulledCard({ card, size = "large" }: PulledCardProps) {
 
   const nameClass =
     size === "large"
-      ? "mt-5 text-center font-headline-lg text-xl font-extrabold sm:text-2xl"
-      : "mt-2 text-center font-headline-lg text-sm font-bold";
+      ? "hidden sm:block sm:mt-5 sm:text-center sm:font-headline-lg sm:text-xl sm:font-extrabold sm:text-2xl"
+      : "hidden sm:block mt-2 text-center font-headline-lg text-sm font-bold";
 
   return (
     <div className={rootClass}>
       <CardFace card={card} />
 
       <div className="mt-1.5 flex flex-col items-center">
-        <div className={`flex items-center gap-3 rounded-full ${cardLabelColor(card.rarity, card.pulledVariant)} px-4 py-1.5 font-headline-lg text-label-sm text-on-secondary uppercase`}>
+        <div className={`flex items-center gap-2 rounded-xl ${cardLabelColor(card.rarity, card.pulledVariant)} px-2 py-1 font-headline-lg text-label-sm text-on-secondary uppercase`}>
           <span className="material-symbols-outlined">
-            auto_awesome
+            star
           </span>
           <p>{cardLabel(card.rarity, card.pulledVariant)}</p>
         </div>
