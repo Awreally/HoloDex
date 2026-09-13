@@ -17,22 +17,18 @@ export default function OneByOneReveal({
   const card = cards[index];
   return (
     <div className="flex w-full flex-col items-center px-4 pt-2 sm:px-0">
-      <div className="gap 3.5 mb-5.5 flex items-center">
-        <span className="font-mono text-headline-lg-sm text-outline">
-          {index + 1} / {cards.length}
-        </span>
-      </div>
-      <div
-        onClick={onNext}
-        className="w-full max-w-68 cursor-pointer"
-      >
+      <div className="gap 3.5 sm:mb-5.5 flex items-center"></div>
+      <div onClick={onNext} className="w-full max-w-68 cursor-pointer">
         <PulledCard key={card.id} card={card} size="large" />
       </div>
 
-      <div className="mt-4 mb-6 flex w-full max-w-68 flex-col gap-3 sm:w-auto sm:max-w-none sm:flex-row">
+      <span className="mt-2 font-mono text-headline-lg-sm text-on-surface">
+        {index + 1} / {cards.length}
+      </span>
+      <div className="mt-2 mb-6 flex w-full max-w-68 flex-col gap-3 sm:w-auto sm:mt-4 sm:max-w-none sm:flex-row">
         <button
           onClick={onNext}
-          className="w-full cursor-pointer rounded-lg border-none bg-linear-to-br from-violet-500 to-violet-700 px-7 py-3 text-[14.5px] font-extrabold text-white transition hover:brightness-105 active:scale-[0.98] sm:w-auto"
+          className="w-auto cursor-pointer rounded-lg border-none bg-linear-to-br from-violet-500 to-violet-700 px-7 py-3 text-[14.5px] font-extrabold text-white transition hover:brightness-105 active:scale-[0.98] sm:w-auto"
         >
           {isLast ? "Finish" : "Next Card"}
         </button>
