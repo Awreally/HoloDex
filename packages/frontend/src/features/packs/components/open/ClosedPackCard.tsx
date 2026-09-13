@@ -17,8 +17,8 @@ export default function PackCard({
   onOpen,
 }: ClosedPackCardProps) {
   return (
-    <div className="flex w-full flex-col items-center justify-center gap-8 px-4 pt-2 pb-8 sm:flex-row sm:flex-nowrap sm:gap-10 sm:px-6 sm:pt-12 sm:pb-10">
-      <div className="flex w-52 aspect-52/64 flex-none items-center justify-center rounded-lg border border-surface-container-highest bg-surface-container-low shadow-[0_1px_2px_rgba(26,28,28,0.04)] sm:w-65">
+    <div className="flex w-full flex-col items-center justify-center gap-4 px-4 pt-4 pb-8 sm:flex-row sm:flex-nowrap sm:gap-10 sm:px-6 sm:pt-12 sm:pb-10">
+      <div className="flex w-50 aspect-65/81 sm:w-65 flex-none items-center justify-center rounded-lg border border-surface-container-highest bg-surface-container-low shadow-[0_1px_2px_rgba(26,28,28,0.04)]">
         <img
           src={packImageUrl ?? BasePack}
           alt={setName}

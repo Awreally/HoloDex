@@ -3,7 +3,7 @@ import { weightedRoll } from "../engine/engine.random";
 
 const rollSwsh7Rare = weightedRoll([
   { rarity: "Secret Rare", variant: "holo", weight: 2.5 },
-  { rarity: "RainbowRare", variant: "holo", weight: 2.5 },
+  { rarity: "Rainbow Rare", variant: "holo", weight: 2.5 },
   { rarity: "Ultra Rare", variant: "holo", weight: 8 },
   { rarity: "Holo Rare VMAX", variant: "holo", weight: 8 },
   { rarity: "Holo Rare V", variant: "holo", weight: 22 },
