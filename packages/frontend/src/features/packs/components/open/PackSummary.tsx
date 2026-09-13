@@ -31,14 +31,14 @@ export default function PackSummary({
           {user && (
             <Link
               to={"/collection"}
-              className="cursor-pointer rounded-xl border border-surface-container-highest bg-on-secondary px-9 py-3.5 text-center text-[15px] font-extrabold text-outline transition hover:brightness-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+              className="cursor-pointer rounded-xl border border-surface-container-highest bg-on-secondary px-9 py-3.5 text-center text-btn-mobile text-outline transition hover:brightness-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
             >
               View collection
             </Link>
           )}
           <button
             onClick={onReset}
-            className="cursor-pointer rounded-xl border-none bg-linear-to-br from-violet-500 to-violet-700 px-9 py-3.5 text-[15px] font-extrabold text-white transition hover:brightness-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+            className="cursor-pointer rounded-xl border-none bg-linear-to-br from-violet-500 to-violet-700 px-9 py-3.5 text-btn-mobile text-white transition hover:brightness-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
           >
             Open another
           </button>

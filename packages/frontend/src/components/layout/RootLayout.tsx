@@ -23,7 +23,7 @@ export default function RootLayout() {
             onClose={() => setMobileNavOpen(false)}
           />
 
-          <main className="flex-1 p-1 md:p-20">
+          <main className="flex-1 p-2 sm:p-4 md:p-20">
             <Outlet />
           </main>
         </div>

@@ -9,12 +9,12 @@ type BrowseSetProps = {
 export default function BrowseSet({ sets }: BrowseSetProps) {
   return (
     <div className="mx-auto max-w-295">
-      <p className="mb-5.5 text-outline uppercase">Binder</p>
-      <div className="mb-5.5 flex flex-wrap items-center justify-between gap-4">
+      <p className="mb-1 text-outline uppercase">Binder</p>
+      <div className="mb-1 flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-headline-lg">Collection</h1>
       </div>
       <div className="mb-5.5">
-        <p className="text-headline-lg-sm">
+        <p className="text-headline-lg-sm text-on-background">
           Pick a set to see the cards you've pulled.
         </p>
       </div>

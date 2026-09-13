@@ -27,11 +27,11 @@ export default function CollectionCardGrid({
           Binder
         </p>
 
-        <h1 className="font-headline-lg text-display-lg text-on-surface">
+        <h1 className="font-headline-lg text-headline-lg text-on-surface">
           Collection
         </h1>
 
-        <p className="text-body-md text-outline">
+        <p className="text-headline-lg-sm text-on-background">
           {pagination.total} card{pagination.total === 1 ? "" : "s"} collected
         </p>
       </div>
@@ -111,7 +111,7 @@ export default function CollectionCardGrid({
             Prev
           </button>
 
-          <span className="text-body-md text-outline">
+          <span className="text-body-md text-on-background">
             Page {pagination.page} of {pagination.totalPages}
           </span>
 

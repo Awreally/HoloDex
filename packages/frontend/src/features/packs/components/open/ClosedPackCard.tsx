@@ -29,8 +29,8 @@ export default function PackCard({
         <p className="text-headline-lg-s text-outline uppercase">
           Booster Pack
         </p>
-        <h1 className="text-headline-lg-mobile sm:text-headline-xl text-on-surface">{setName}</h1>
-        <div className="mb-6 flex w-fit max-w-full flex-col gap-2.5 rounded-2xl border border-[#e2e2e2] bg-[#f9f9f9] p-4.5">
+        <h1 className="text-headline-lg sm:text-headline-xl text-on-surface">{setName}</h1>
+        <div className="mb-6 flex w-fit max-w-full flex-col gap-2.5 rounded-2xl border border-surface-container-highest bg-surface p-4.5">
           <p className="text-headline-lg-s text-outline uppercase">
             What's Inside
           </p>
@@ -50,9 +50,9 @@ export default function PackCard({
         <button
           onClick={onOpen}
           disabled={isLoading}
-          className="flex w-auto cursor-pointer items-center justify-center gap-2.5 rounded-xl border-none bg-linear-to-br from-violet-500 to-violet-700 px-9 py-3.5 text-[15px] font-extrabold text-white transition hover:brightness-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+          className="flex cursor-pointer w-auto items-center justify-center gap-2.5 rounded-xl border-none bg-linear-to-br from-violet-500 to-violet-700 px-9 py-3.5 text-[15px] font-extrabold text-white transition hover:brightness-105 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
         >
-          <span className="material-symbols-outlined text-[21px]">
+          <span className="material-symbols-outlined sm:text-[21px]">
             auto_awesome
           </span>
           {isLoading ? "Opening..." : "Open Pack"}
