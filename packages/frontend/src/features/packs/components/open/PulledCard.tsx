@@ -15,8 +15,8 @@ export default function PulledCard({ card, size = "large" }: PulledCardProps) {
 
   const nameClass =
     size === "large"
-      ? "hidden sm:mt-5 sm:text-center sm:font-headline-lg sm:text-xl sm_font-extrabold sm:text-2xl"
-      : "";
+      ? "hidden sm:block sm:mt-5 sm:text-center sm:font-headline-lg sm:text-xl sm:font-extrabold sm:text-2xl"
+      : "hidden sm:block mt-2 text-center font-headline-lg text-sm font-bold";
 
   return (
     <div className={rootClass}>

@@ -367,6 +367,11 @@ button {
   --text-headline-lg-mobile--line-height: 1.2;
   --text-headline-lg-mobile--font-weight: 700;
 
+  --text-btn-mobile: 15px;
+  --text-btn-mobile--line-height: 1.2;
+  --text-btn-mobile--font-weight: 800;
+  
+
   --text-headline-lg-s: 12px;
   --text-headline-lg-s--line-height: 1.2;
   --text-headline-lg-s--font-weight: 600;
