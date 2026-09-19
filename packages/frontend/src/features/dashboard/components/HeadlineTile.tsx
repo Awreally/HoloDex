@@ -12,9 +12,9 @@ export default function HeadLineTile({ headline }: HeadlineTileProps) {
       <div className="flex w-69 flex-col rounded-2xl border border-surface-container-highest bg-on-secondary p-5.5">
         <div className="flex items-center gap-4">
           <span className="material-symbols-outlined text-primary">style</span>
-          <p className="text-headline-lg-s text-outline uppercase">
+          <h2 className="text-headline-lg-s text-outline uppercase">
             Cards owned
-          </p>
+          </h2>
         </div>
 
         <div className="mt-2 mb-2 flex justify-between font-display-lg">

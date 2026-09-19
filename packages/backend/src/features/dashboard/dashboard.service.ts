@@ -43,6 +43,7 @@ export async function getRecentCards(userId: string) {
       variant: true,
       card: {
         select: {
+          id: true,
           rarity: true,
           imageSmall: true,
           imageLarge: true,
@@ -52,6 +53,7 @@ export async function getRecentCards(userId: string) {
   });
 
   const recentCardShape = recentCard.map((c) => ({
+    id: c.card.id,
     obtainedAt: c.obtainedAt,
     variant: c.variant,
     rarity: c.card.rarity,
