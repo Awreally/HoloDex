@@ -25,7 +25,39 @@ type FullCard = {
     firstEdition?: boolean;
     wPromo?: boolean;
   };
+  pricing?: {
+    cardmarket?: Record<string, number | string | null | undefined> | null;
+    tcgplayer?: Record<string, { marketPrice?: number } | string | undefined> | null;
+  };
 };
+
+// Our variant -> the price keys to try. TCGplayer: vintage sets use
+// "unlimited" / "unlimited-holofoil". Cardmarket: "trend" is the regular price,
+// "trend-holo" is the reverse holo price.
+const PRICE_KEYS = {
+  normal: { tcgplayer: ["normal", "unlimited"], cardmarket: "trend" },
+  reverse: { tcgplayer: ["reverse-holofoil"], cardmarket: "trend-holo" },
+  holo: { tcgplayer: ["holofoil", "unlimited-holofoil"], cardmarket: "trend" },
+} as const;
+
+const num = (v: unknown) => (typeof v === "number" ? v : null);
+
+function extractPrices(card: FullCard) {
+  return (Object.keys(PRICE_KEYS) as (keyof typeof PRICE_KEYS)[])
+    .filter((variant) => card.variants?.[variant])
+    .map((variant) => {
+      const keys = PRICE_KEYS[variant];
+      const entry = keys.tcgplayer
+        .map((key) => card.pricing?.tcgplayer?.[key])
+        .find((e) => typeof e === "object");
+      return {
+        variant,
+        tcgplayerMarket:
+          typeof entry === "object" ? num(entry.marketPrice) : null,
+        cardmarketTrend: num(card.pricing?.cardmarket?.[keys.cardmarket]),
+      };
+    });
+}
 
 async function seedCardsForSet(setId: string) {
   const setRes = await fetch(`https://api.tcgdex.net/v2/en/sets/${setId}`);
@@ -88,6 +120,14 @@ async function seedCardsForSet(setId: string) {
           holo: card.variants?.holo ?? false,
         },
       });
+
+      for (const price of extractPrices(card)) {
+        await prisma.cardPrice.upsert({
+          where: { cardId_variant: { cardId: card.id, variant: price.variant } },
+          update: price,
+          create: { cardId: card.id, ...price },
+        });
+      }
 
       seeded++;
       if (seeded % 20 === 0) console.log(`  ...${seeded} cards seeded`);

@@ -46,6 +46,19 @@ model Card {
   reverse    Boolean    @default(false)
   holo       Boolean    @default(false)
   owners     UserCard[]
+  prices     CardPrice[]
+}
+
+model CardPrice {
+  id               String   @id @default(uuid())
+  card             Card     @relation(fields: [cardId], references: [id])
+  cardId           String
+  variant          String
+  tcgplayerMarket      Float?
+  cardmarketTrend      Float?
+  updatedAt        DateTime @default(now()) @updatedAt
+
+  @@unique([cardId, variant])
 }
 
 model UserCard {
