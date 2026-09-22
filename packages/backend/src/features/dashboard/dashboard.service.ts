@@ -6,6 +6,7 @@ export async function getRarityVariantBreakdown(userId: string) {
     where: { userId: userId },
     select: {
       variant: true,
+      quantity: true,
       card: {
         select: { rarity: true },
       },
@@ -17,11 +18,7 @@ export async function getRarityVariantBreakdown(userId: string) {
   for (const row of rows) {
     const key = `${row.card.rarity}|${row.variant}`;
 
-    if (counts[key]) {
-      counts[key] += 1;
-    } else {
-      counts[key] = 1;
-    }
+    counts[key] = (counts[key] ?? 0) + row.quantity;
   }
   const result = Object.entries(counts).map(([key, count]) => {
     const [rarity, variant] = key.split("|");
@@ -59,15 +56,58 @@ export async function getRecentCards(userId: string) {
     rarity: c.card.rarity,
     imageSmall: c.card.imageSmall,
     imageLarge: c.card.imageLarge,
-  }))
+  }));
   return recentCardShape;
 }
 
+export async function getTotalValue(userId: string) {
+  const ownedCards = await prisma.userCard.findMany({
+    where: {
+      userId,
+    },
+    select: {
+      variant: true,
+      quantity: true,
+      card: {
+        select: {
+          prices: {
+            select: {
+              variant: true,
+              tcgplayerMarket: true,
+              cardmarketTrend: true,
+              updatedAt: true,
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return ownedCards.reduce(
+    (totals, ownedCard) => {
+      const matchingPrice = ownedCard.card.prices.find(
+        (price) => price.variant === ownedCard.variant,
+      );
+
+      if (matchingPrice) {
+        totals.tcgplayer +=
+          (matchingPrice.tcgplayerMarket ?? 0) * ownedCard.quantity;
+        totals.cardmarket +=
+          (matchingPrice.cardmarketTrend ?? 0) * ownedCard.quantity;
+      }
+
+      return totals;
+    },
+    { tcgplayer: 0, cardmarket: 0 },
+  );
+}
+
 export async function getDashboardForUser(userId: string) {
-  const [sets, rarity, recent] = await Promise.all([
+  const [sets, rarity, recent, totalValue] = await Promise.all([
     getCollectionSetsForUser(userId),
     getRarityVariantBreakdown(userId),
     getRecentCards(userId),
+    getTotalValue(userId),
   ]);
 
   const totalOwned = sets.reduce((sum, set) => sum + set.owned, 0);
@@ -82,10 +122,9 @@ export async function getDashboardForUser(userId: string) {
     .slice(0, 3);
 
   return {
-    headline: {
-      owned: totalOwned,
-      total: totalCards,
-      percentComplete,
+    stats: {
+      cards: { owned: totalOwned, total: totalCards, percentComplete,},
+      value: totalValue,
     },
     closestToComplete,
     rarityVariantBreakdown: rarity,

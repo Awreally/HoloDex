@@ -1,7 +1,15 @@
-type Headline = {
-  owned: number;
-  total: number;
-  percentComplete: number;
+type MarketValue = {
+  tcgplayer: number;
+  cardmarket: number;
+};
+
+type Stats = {
+  cards: {
+    owned: number;
+    total: number;
+    percentComplete: number;
+  };
+  value: MarketValue;
 };
 
 export type ClosestToComplete = {
@@ -29,7 +37,7 @@ export type Recent = {
 };
 
 export type Dashboard = {
-  headline: Headline;
+  stats: Stats;
   closestToComplete: ClosestToComplete[];
   rarityVariantBreakdown: RarityVariantBreakdown[];
   recent: Recent[];
