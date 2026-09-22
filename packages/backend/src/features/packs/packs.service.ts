@@ -3,7 +3,17 @@ import { getRecipeForSet } from "./recipes/recipes.index";
 import { openPack } from "./engine/engine.index";
 
 export async function openPackForSet(setId: string, userId: string | null) {
-  const cards = await prisma.card.findMany({ where: { setId } });
+  const cards = await prisma.card.findMany({
+    where: { setId },
+    include: { prices: {
+      select: {
+        variant: true,
+        tcgplayerMarket: true,
+        cardmarketTrend: true,
+      }
+    } 
+  },
+  });
 
   if (cards.length === 0) {
     return null;
@@ -38,5 +48,12 @@ export async function openPackForSet(setId: string, userId: string | null) {
     );
   }
 
-  return pulledCards;
+  return pulledCards.map(({ prices, ...card }) => {
+    const price = prices.find((p) => p.variant === card.pulledVariant);
+    return {
+      ...card,
+      tcgplayerMarket: price?.tcgplayerMarket ?? null,
+      cardmarketTrend: price?.cardmarketTrend ?? null,
+    };
+  });
 }

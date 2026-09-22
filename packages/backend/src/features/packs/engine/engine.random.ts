@@ -15,9 +15,9 @@ export function weightedRoll(options: Weighted[]): RollFn {
   return fn;
 }
 
-export function pickRandom(pool: Card[], amount: number): Card[] {
+export function pickRandom<T extends Card>(pool: T[], amount: number): T[] {
   const available = [...pool];
-  const selected: Card[] = [];
+  const selected: T[] = [];
   const drawCount = Math.min(amount, available.length);
 
   for (let i = 0; i < drawCount; i++) {

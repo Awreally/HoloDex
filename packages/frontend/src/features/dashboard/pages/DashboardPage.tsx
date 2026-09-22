@@ -14,10 +14,12 @@ export function DashBoardPage() {
   return (
     <div>
         <h1>Welcome Back, {user?.username} ! </h1>
-      <div className="flex">
+      <div className="flex flex-col">
         <HeadLineTile headline={headline} />
+        <div className="flex">
         <ClosestToCompleteTile closestToComplete={closestToComplete} />
         <RarityVariant rarityVariantBreakdown={rarityVariantBreakdown}/>
+        </div>
         <div>
           <RecentPulls recent={recent}/>
         </div>

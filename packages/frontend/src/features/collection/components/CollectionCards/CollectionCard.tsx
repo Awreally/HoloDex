@@ -79,6 +79,7 @@ export default function CollectionCard({
           </span>
           <p>{cardLabel(entry.card.rarity, entry.variant)}</p>
         </div>
+        <p> {entry.cardmarketTrend} €</p>
 
         <p className="hidden sm:block mt-1 text-center text-sm font-bold">{entry.card.name}</p>
       </div>
