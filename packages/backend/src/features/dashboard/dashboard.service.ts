@@ -83,7 +83,7 @@ export async function getTotalValue(userId: string) {
     },
   });
 
-  return ownedCards.reduce(
+  const totals = ownedCards.reduce(
     (totals, ownedCard) => {
       const matchingPrice = ownedCard.card.prices.find(
         (price) => price.variant === ownedCard.variant,
@@ -100,6 +100,11 @@ export async function getTotalValue(userId: string) {
     },
     { tcgplayer: 0, cardmarket: 0 },
   );
+
+  return {
+    tcgplayer: Math.floor(totals.tcgplayer),
+    cardmarket: Math.floor(totals.cardmarket),
+  };
 }
 
 export async function getDashboardForUser(userId: string) {

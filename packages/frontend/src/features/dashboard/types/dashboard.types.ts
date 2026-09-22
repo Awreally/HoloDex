@@ -3,7 +3,7 @@ type MarketValue = {
   cardmarket: number;
 };
 
-type Stats = {
+export type Stats = {
   cards: {
     owned: number;
     total: number;
