@@ -7,7 +7,7 @@ type PackListProps = {
 
 export default function PackList({ packs }: PackListProps) {
   return (
-    <div className="w-full">
+    <div className="mx-auto w-full max-w-300">
       <div className="flex flex-col gap-1">
         <p className="text-headline-lg-s text-outline uppercase">
           Open Packs
@@ -15,11 +15,11 @@ export default function PackList({ packs }: PackListProps) {
         <h1 className="text-headline-lg sm:font-headline-xl text-display-lg text-on-surface">
           Packs
         </h1>
-        <p className="text-body-md text-outline">
+        <p className="text-body-md text-on-surface">
           Select a pack that you wish to open
         </p>
       </div>
-      <div className="mt-2 sm:mt-8 grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] items-stretch gap-3">
+      <div className="mt-2 grid grid-cols-[repeat(auto-fit,minmax(160px,220px))] items-stretch justify-center gap-3 sm:mt-8">
         {packs.map((p) => (
           <PackThumbnail key={p.id} packsFace={p} />
         ))}

@@ -17,6 +17,13 @@ export default function CollectionCard({
   onHighResLoad,
 }: CollectionCardProps) {
   const base = entry.card.imageLarge ?? entry.card.imageSmall;
+  const rarityLabel = cardLabel(entry.card.rarity, entry.variant);
+  const rarityLabelTextClass =
+    rarityLabel.length > 22 ? "text-headline-lg-s" : "text-label-sm";
+  const cardNameTextClass =
+    entry.card.name.length > 22
+      ? "text-headline-lg-s"
+      : "text-headline-lg-sm";
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   function handlePointerMove(e: PointerEvent<HTMLDivElement>) {
@@ -32,7 +39,7 @@ export default function CollectionCard({
   }
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="relative isolate flex h-full w-full flex-col items-center">
       <div
         onPointerMove={expanded ? handlePointerMove : undefined}
         onPointerLeave={expanded ? resetTilt : undefined}
@@ -43,8 +50,8 @@ export default function CollectionCard({
               }
             : undefined
         }
-        className={`relative w-full overflow-hidden rounded-lg border border-surface-variant shadow-sm transition-transform duration-200 ease-out ${
-          expanded ? "z-10 shadow-xl" : ""
+        className={`relative z-10 w-full overflow-hidden rounded-lg border border-surface-variant shadow-sm transition-transform duration-200 ease-out ${
+          expanded ? "shadow-xl" : ""
         }`}
       >
         {base ? (
@@ -72,16 +79,31 @@ export default function CollectionCard({
         )}
       </div>
 
-      <div className="mt-1.5 flex flex-col items-center">
-        <div className={`flex items-center gap-2 rounded-xl ${cardLabelColor(entry.card.rarity, entry.variant)} px-4 py-1 font-headline-lg text-headline-lg-s text-on-secondary uppercase`}>
-          <span className="material-symbols-outlined">
-            star
+      <div className="-mt-3 grid w-full min-w-0 grid-rows-[1.5rem_1.5rem_1rem] place-items-center gap-1.5 rounded-2xl border border-surface-container-highest bg-on-secondary px-3 pt-5 pb-3">
+        <div
+          className={`inline-flex max-w-full items-center justify-center gap-1.5 rounded-full bg-surface-container-low px-2 py-1 text-center font-body-lg text-on-surface-variant ${rarityLabelTextClass}`}
+          title={rarityLabel}
+        >
+          <span
+            aria-hidden="true"
+            className={`size-2.5 shrink-0 rounded-full ${cardLabelColor(entry.card.rarity, entry.variant)}`}
+          />
+          <span className="min-w-0 wrap-break-word text-center">
+            {rarityLabel}
           </span>
-          <p>{cardLabel(entry.card.rarity, entry.variant)}</p>
         </div>
-        <p> {entry.cardmarketTrend} €</p>
 
-        <p className="hidden sm:block mt-1 text-center text-sm font-bold">{entry.card.name}</p>
+        <p
+          className={`flex h-full w-full items-center justify-center text-balance wrap-break-word text-center font-headline-lg text-on-surface ${cardNameTextClass}`}
+        >
+          {entry.card.name}
+        </p>
+
+        <p className="flex h-full items-center justify-center text-center text-body-md tabular-nums text-on-surface">
+          {entry.cardmarketTrend === null
+            ? "Price unavailable"
+            : `${entry.cardmarketTrend.toFixed(2)} €`}
+        </p>
       </div>
     </div>
   );

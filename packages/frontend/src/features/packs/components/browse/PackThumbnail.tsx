@@ -20,7 +20,7 @@ export function PackThumbnail({ packsFace }: { packsFace: SetsPack }) {
       <p className="text-[13px] font-bold tracking-[0.08em] text-on-surface uppercase">
         {packsFace.name}
       </p>
-      <p className="text-headline-lg-s text-outline">
+      <p className="text-headline-lg-s text-on-surface">
         Pack contains {packsFace.packSize} cards
       </p>
 

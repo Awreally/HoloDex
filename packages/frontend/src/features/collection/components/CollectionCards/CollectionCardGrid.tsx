@@ -77,7 +77,7 @@ export default function CollectionCardGrid({
             <p className="font-headline-lg text-title-md text-on-surface">
               No cards yet
             </p>
-            <p className="mt-1 text-body-md text-outline">
+            <p className="mt-1 text-body-md text-on-surface">
               Open a pack to start building this set's collection.
             </p>
           </div>
@@ -89,7 +89,7 @@ export default function CollectionCardGrid({
           </Link>
         </div>
       ) : (
-        <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(132px,1fr))] gap-3.5">
+        <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3.5">
           {collection.map((c) => (
             <CollectionCardTile key={c.id} entry={c} />
           ))}
