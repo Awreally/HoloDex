@@ -9,8 +9,11 @@ export default function ClosestToCompleteTile({
   closestToComplete,
 }: ClosestToCompleteProps) {
   return (
-    <div className="flex w-69 flex-col rounded-2xl border border-surface-container-highest bg-on-secondary p-5.5">
+    <div className="flex flex-col rounded-2xl border border-surface-container-highest bg-on-secondary p-5.5">
       <div className="flex items-center gap-4">
+           <span className="material-symbols-outlined text-primary">
+                    grid_view
+                </span>
         <h2 className="text-headline-lg-s text-outline uppercase">
           Set Completion
         </h2>

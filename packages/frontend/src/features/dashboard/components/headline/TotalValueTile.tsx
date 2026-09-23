@@ -1,4 +1,4 @@
-import type { Stats } from "../types/dashboard.types";
+import type { Stats } from "../../types/dashboard.types";
 
 type TotalValueTileProps = {
   value: Stats["value"];
@@ -8,8 +8,7 @@ export default function TotalValueTile({ value }: TotalValueTileProps) {
   const { tcgplayer, cardmarket } = value;
 
   return (
-    <div>
-      <div className="flex w-69 flex-col rounded-2xl border border-surface-container-highest bg-on-secondary p-5.5">
+      <div className="flex flex-col rounded-2xl border border-surface-container-highest bg-on-secondary p-5.5">
         <div className="flex items-center gap-4">
           <span className="material-symbols-outlined text-primary">
             money_bag
@@ -19,9 +18,8 @@ export default function TotalValueTile({ value }: TotalValueTileProps) {
           </h2>
         </div>
         <div className="mt-2 mb-2 flex justify-center font-display-lg">
-          <p className="font-display-lg text-body-lg">{cardmarket} €</p>
+          <p className="font-display-lg text-headline-lg">{cardmarket} €</p>
         </div>
       </div>
-    </div>
   );
 }

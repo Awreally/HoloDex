@@ -1,3 +1,5 @@
+import { Variant } from "../../packs/types/packs.types";
+
 type MarketValue = {
   tcgplayer: number;
   cardmarket: number;
@@ -10,6 +12,8 @@ export type Stats = {
     percentComplete: number;
   };
   value: MarketValue;
+  packsOpened: number;
+  avgValuePerPack: MarketValue;
 };
 
 export type ClosestToComplete = {
@@ -30,7 +34,7 @@ export type RarityVariantBreakdown = {
 export type Recent = {
   id: string;
   obtainedAt: string;
-  variant: string;
+  variant: Variant;
   rarity: string;
   imageSmall: string | null;
   imageLarge: string | null;

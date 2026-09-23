@@ -1,5 +1,11 @@
 import { getCollectionSetsForUser } from "../collection/collection.service";
 import { prisma } from "../../lib/prisma";
+import { rarityVariantOrder } from "./dashboard.constants";
+
+
+const rarityVariantRank = new Map<string, number>(
+  rarityVariantOrder.map((key, index) => [key, index]),
+);
 
 export async function getRarityVariantBreakdown(userId: string) {
   const rows = await prisma.userCard.findMany({
@@ -20,10 +26,26 @@ export async function getRarityVariantBreakdown(userId: string) {
 
     counts[key] = (counts[key] ?? 0) + row.quantity;
   }
-  const result = Object.entries(counts).map(([key, count]) => {
-    const [rarity, variant] = key.split("|");
-    return { rarity, variant, count };
-  });
+  const result = Object.entries(counts)
+    .map(([key, count]) => {
+      const [rarity, variant] = key.split("|");
+      return { rarity, variant, count };
+    })
+    .sort((a, b) => {
+      const aKey = `${a.rarity}|${a.variant}`;
+      const bKey = `${b.rarity}|${b.variant}`;
+      const fallbackRank = rarityVariantOrder.length;
+      const rankDifference =
+        (rarityVariantRank.get(aKey) ?? fallbackRank) -
+        (rarityVariantRank.get(bKey) ?? fallbackRank);
+
+      if (rankDifference !== 0) return rankDifference;
+
+      return (
+        a.rarity.localeCompare(b.rarity) ||
+        a.variant.localeCompare(b.variant)
+      );
+    });
 
   return result;
 }
@@ -107,13 +129,27 @@ export async function getTotalValue(userId: string) {
   };
 }
 
+export async function getPacksOpened(userId: string) {
+  return prisma.packOpening.count({ where: { userId } });
+}
+
 export async function getDashboardForUser(userId: string) {
-  const [sets, rarity, recent, totalValue] = await Promise.all([
+  const [sets, rarity, recent, totalValue, packsOpened] = await Promise.all([
     getCollectionSetsForUser(userId),
     getRarityVariantBreakdown(userId),
     getRecentCards(userId),
     getTotalValue(userId),
+    getPacksOpened(userId),
   ]);
+
+  const avgValuePerPack = {
+    tcgplayer: packsOpened
+      ? Math.floor(totalValue.tcgplayer / packsOpened)
+      : 0,
+    cardmarket: packsOpened
+      ? Math.floor(totalValue.cardmarket / packsOpened)
+      : 0,
+  };
 
   const totalOwned = sets.reduce((sum, set) => sum + set.owned, 0);
   const totalCards = sets.reduce((sum, set) => sum + set.total, 0);
@@ -130,6 +166,8 @@ export async function getDashboardForUser(userId: string) {
     stats: {
       cards: { owned: totalOwned, total: totalCards, percentComplete,},
       value: totalValue,
+      packsOpened,
+      avgValuePerPack,
     },
     closestToComplete,
     rarityVariantBreakdown: rarity,

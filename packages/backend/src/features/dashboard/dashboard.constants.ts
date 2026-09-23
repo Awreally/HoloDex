@@ -1,0 +1,16 @@
+export const rarityVariantOrder = [
+  "Common|normal",
+  "Common|reverse",
+  "Uncommon|normal",
+  "Uncommon|reverse",
+  "Rare|normal",
+  "Rare|reverse",
+  "Rare|holo",
+  "Holo Rare|reverse",
+  "Holo Rare V|holo",
+  "Double Rare|holo",
+  "Illustration Rare|holo",
+  "Ultra Rare|holo",
+  "Special Illustration Rare|holo",
+  "Hyper Rare|holo",
+] as const;

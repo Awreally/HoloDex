@@ -23,8 +23,8 @@ export async function openPackForSet(setId: string, userId: string | null) {
   const pulledCards = openPack(cards, recipe);
 
   if (userId) {
-    await prisma.$transaction(
-      pulledCards.map((card) =>
+    await prisma.$transaction([
+      ...pulledCards.map((card) =>
         prisma.userCard.upsert({
           where: {
             userId_cardId_variant: {
@@ -45,7 +45,10 @@ export async function openPackForSet(setId: string, userId: string | null) {
           },
         }),
       ),
-    );
+      prisma.packOpening.create({
+        data: { userId, setId },
+      }),
+    ]);
   }
 
   return pulledCards.map(({ prices, ...card }) => {
