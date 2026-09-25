@@ -36,7 +36,7 @@ export default function TextInput({
           id={inputId}
           name={name}
           type={isPassword ? (revealed ? "text" : "password") : type}
-          className={`w-full rounded border-[1.5px] bg-background px-4 py-3 text-sm text-on-background transition-colors outline-none placeholder:text-outline focus:border-primary focus:bg-surface-container-lowest ${
+          className={`w-full rounded border-[1.5px] bg-background px-4 py-3 text-base sm:text-sm text-on-background transition-colors outline-none placeholder:text-outline focus:border-primary focus:bg-surface-container-lowest ${
             error ? "border-error" : "border-outline-variant"
           } ${isPassword ? "pr-11" : ""} ${className}`}
         />
