@@ -7,7 +7,7 @@ import type { RegisterInput, LoginInput } from "./auth.validation";
 const cookieOptions: CookieOptions = {
   httpOnly: true,
   secure: env.NODE_ENV === "production",
-  sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+  sameSite: "lax",
 };
 
 export async function registerUserHandler(
