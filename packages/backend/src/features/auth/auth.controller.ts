@@ -1,8 +1,14 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction, CookieOptions } from "express";
 import { registerUser, loginUser, getUserById } from "./auth.service";
 import { env } from "../../config/env";
 import { AppError } from "../../errors/AppError";
 import type { RegisterInput, LoginInput } from "./auth.validation";
+
+const cookieOptions: CookieOptions = {
+  httpOnly: true,
+  secure: env.NODE_ENV === "production",
+  sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+};
 
 export async function registerUserHandler(
   req: Request<unknown, unknown, RegisterInput>,
@@ -14,9 +20,7 @@ export async function registerUserHandler(
     const { passwordHash, ...safeUser } = user;
 
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: env.NODE_ENV === "production",
-      sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+      ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -39,9 +43,7 @@ export async function loginUserHandler(
     const { passwordHash, ...safeUser } = user;
 
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: env.NODE_ENV === "production",
-      sameSite: env.NODE_ENV === "production" ? "none" : "lax",
+      ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -82,10 +84,7 @@ export async function logoutHandler(
   res: Response,
   _next: NextFunction,
 ): Promise<void> {
- res.clearCookie("token", {
-  httpOnly: true,
-  secure: env.NODE_ENV === "production",
-  sameSite: "lax",
- });
- res.status(200).json({ success: true});
+  // Must match the options used when setting the cookie, or the browser ignores the clear
+  res.clearCookie("token", cookieOptions);
+  res.status(200).json({ success: true });
 }
