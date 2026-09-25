@@ -3,7 +3,7 @@ import { RouteErrorBoundary, RouteLoading } from "./RouteFeedBack";
 import RootLayout from "../components/layout/RootLayout";
 import SetsPage from "../features/sets/pages/SetsPage";
 import { OpenPackPage } from "../features/packs/page/OpenPackPage";
-import { DashBoardPage } from "../pages/DashBoardPage";
+import { DashBoardPage } from "../features/dashboard/pages/DashboardPage";
 import { TradePage } from "../pages/TradePage";
 import Authpage from "../features/auth/pages/AuthPage";
 import CollectionPage from "../features/collection/pages/CollectionPage";
@@ -25,8 +25,8 @@ import {
   authLoader,
   logoutAction,
   guestOnlyLoader,
-  dashboardLoader,
   requireAuthLoader,
+  dashboardLoader
 } from "../features/auth/loaders/auth.loaders";
 export const router = createBrowserRouter([
   {

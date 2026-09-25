@@ -1,14 +1,17 @@
-import type { Card, Variant, PackRecipe, PulledCard } from "../packs.types";
+import type { Card, Variant, PackRecipe } from "../packs.types";
 import { pickRandom } from "./engine.random";
 import { sameRarity, cardHasVariant } from "./engine.variants";
 
-export function openPack(cards: Card[], recipe: PackRecipe): PulledCard[] {
-  const pack: PulledCard[] = [];
+export function openPack<T extends Card>(
+  cards: T[],
+  recipe: PackRecipe,
+): (T & { pulledVariant: Variant })[] {
+  const pack: (T & { pulledVariant: Variant })[] = [];
   const used = new Set<string>();
 
   const sig = (id: string, variant: Variant) => `${id}:${variant}`;
 
-  const draw = (pool: Card[], amount: number, variant: Variant) => {
+  const draw = (pool: T[], amount: number, variant: Variant) => {
     const available = pool.filter((card) => !used.has(sig(card.id, variant)));
     const drawn = pickRandom(available, amount);
     for (const card of drawn) {

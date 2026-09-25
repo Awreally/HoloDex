@@ -8,6 +8,7 @@ import {
 import { redirect } from "react-router";
 import { ApiError, isApiError } from "../../../lib/api";
 import { RegisterInput } from "../types/auth.types";
+import { getDashboard } from "../../dashboard/api/dashboard.api";
 
 function extractFieldErrors(err: ApiError): Record<string, string> | undefined {
   const details = (err.data as { details?: { field: string; message: string }[] })
@@ -25,6 +26,7 @@ function extractFieldErrors(err: ApiError): Record<string, string> | undefined {
 // Dashboard redirect
 export async function dashboardLoader() {
   const { user } = await authLoader();
+  if (user) return getDashboard();
   if (!user) return redirect("/packs");
   return { user };
 }

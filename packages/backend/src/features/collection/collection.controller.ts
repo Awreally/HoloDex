@@ -25,14 +25,14 @@ export async function getCollection(
     }
     const query = req.query as unknown as CollectionQuery;
 
-    const { entries, pagination, hasReverseVariant } = await getCollectionForUser(
+    const { entriesWithPrice, pagination, hasReverseVariant } = await getCollectionForUser(
       userId,
       setId,
       query,
     );
     res.status(200).json({
       success: true,
-      data: entries,
+      data: entriesWithPrice,
       pagination,
       hasReverseVariant,
     });

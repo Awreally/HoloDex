@@ -15,17 +15,16 @@ export default function CollectionCardGrid({
   pagination,
   hasReverseVariant,
 }: CollectionCardGridProps) {
-    const { variant, sortDir, goToPage, setVariant, setSortDir } = useCollectionFilters();
-    const variantOptions = VARIANT_OPTIONS.filter(
-      (option) => option.value !== "reverse" || hasReverseVariant,
-    );
+  const { variant, sortDir, goToPage, setVariant, setSortDir } =
+    useCollectionFilters();
+  const variantOptions = VARIANT_OPTIONS.filter(
+    (option) => option.value !== "reverse" || hasReverseVariant,
+  );
 
   return (
     <div>
       <div className="flex flex-col gap-1">
-        <p className="text-headline-lg-s text-outline uppercase">
-          Binder
-        </p>
+        <p className="text-headline-lg-s text-outline uppercase">Binder</p>
 
         <h1 className="font-headline-lg text-headline-lg text-on-surface">
           Collection
@@ -78,7 +77,7 @@ export default function CollectionCardGrid({
             <p className="font-headline-lg text-title-md text-on-surface">
               No cards yet
             </p>
-            <p className="mt-1 text-body-md text-outline">
+            <p className="mt-1 text-body-md text-on-surface">
               Open a pack to start building this set's collection.
             </p>
           </div>
@@ -90,7 +89,7 @@ export default function CollectionCardGrid({
           </Link>
         </div>
       ) : (
-        <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(132px,1fr))] gap-3.5">
+        <div className="mt-8 grid grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-3.5">
           {collection.map((c) => (
             <CollectionCardTile key={c.id} entry={c} />
           ))}
@@ -106,7 +105,7 @@ export default function CollectionCardGrid({
 
             disabled={pagination.page <= 1}
 
-            className="text-label-sm tracking-widest text-on-surface-variant uppercase cursor-pointer disabled:opacity-40"
+            className="cursor-pointer text-label-sm tracking-widest text-on-surface-variant uppercase disabled:opacity-40"
           >
             Prev
           </button>
@@ -122,7 +121,7 @@ export default function CollectionCardGrid({
 
             disabled={pagination.page >= pagination.totalPages}
 
-            className="text-label-sm tracking-widest text-on-surface-variant cursor-pointer uppercase disabled:opacity-40"
+            className="cursor-pointer text-label-sm tracking-widest text-on-surface-variant uppercase disabled:opacity-40"
           >
             Next
           </button>

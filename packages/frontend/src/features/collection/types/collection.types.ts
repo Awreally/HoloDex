@@ -15,6 +15,8 @@ export type CollectionCard = {
 };
 
 export type CollectionEntry = {
+  tcgplayerMarket: number | null;
+  cardmarketTrend: number | null;
   id: string;
   userId: string;
   cardId: string;

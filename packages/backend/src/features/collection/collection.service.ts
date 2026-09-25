@@ -18,7 +18,11 @@ export async function getCollectionForUser(
     prisma.userCard.findMany({
       where,
       include: {
-        card: true,
+        card: {
+          include: {
+            prices: true,
+          },
+        },
       },
       orderBy: [
         { card: { setId: sortDir } },
@@ -32,8 +36,21 @@ export async function getCollectionForUser(
     prisma.card.count({ where: { setId, reverse: true } }),
   ]);
 
+  const entriesWithPrice = entries.map(({ card, ...entry }) => {
+    const { prices, ...cardWithoutPrices } = card;
+
+    const price = prices.find((price) => price.variant === entry.variant);
+
+    return {
+      ...entry,
+      card: cardWithoutPrices,
+      tcgplayerMarket: price?.tcgplayerMarket ?? null,
+      cardmarketTrend: price?.cardmarketTrend ?? null,
+    };
+  });
+
   return {
-    entries,
+    entriesWithPrice,
     pagination: {
       page,
       pageSize,
