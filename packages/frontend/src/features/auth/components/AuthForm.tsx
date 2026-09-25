@@ -92,7 +92,7 @@ export function AuthForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center justify-center gap-2.5 rounded bg-primary py-3.5 text-label-sm tracking-widest text-on-primary uppercase transition-colors hover:bg-primary-container disabled:cursor-default disabled:bg-outline-variant"
+              className="inline-flex items-center justify-center gap-2.5 rounded bg-primary py-3.5 text-label-sm tracking-widest text-on-primary uppercase transition-colors hover:bg-primary-container cursor-pointer disabled:cursor-default disabled:bg-outline-variant"
             >
               {isSubmitting
                 ? isSignin

@@ -26,7 +26,7 @@ import {
   logoutAction,
   guestOnlyLoader,
   requireAuthLoader,
-  dashboardLoader
+  dashboardLoader,
 } from "../features/auth/loaders/auth.loaders";
 export const router = createBrowserRouter([
   {

@@ -9,7 +9,7 @@ export function TabsAuth({ active, setActive }: TabsAuthProps) {
       <button
         type="button"
         onClick={() => setActive("signin")}
-        className={`flex-1 rounded py-2.5 px-3 text-sm transition-colors ${
+        className={`flex-1 rounded py-2.5 px-3 text-sm transition-colors cursor-pointer ${
           active === "signin"
             ? "bg-surface-container-lowest text-on-surface font-semibold shadow-sm"
             : "text-on-surface-variant font-normal"
@@ -20,7 +20,7 @@ export function TabsAuth({ active, setActive }: TabsAuthProps) {
       <button
         type="button"
         onClick={() => setActive("register")}
-        className={`flex-1 rounded py-2.5 px-3 text-sm transition-colors ${
+        className={`flex-1 rounded py-2.5 px-3 text-sm transition-colors cursor-pointer ${
           active === "register"
             ? "bg-surface-container-lowest text-on-surface font-semibold shadow-sm"
             : "text-on-surface-variant font-normal"
