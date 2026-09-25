@@ -30,14 +30,12 @@ export function validateRequest(schemas: RequestSchemas): RequestHandler {
     if (schemas.params) {
       const result = schemas.params.safeParse(req.params);
       if (!result.success) errors.push(...formatIssues("params", result.error.issues));
-      // Express types req.params as a fixed ParamsDictionary; cast is safe since result.data is validated.
       else req.params = result.data as typeof req.params;
     }
 
     if (schemas.query) {
       const result = schemas.query.safeParse(req.query);
       if (!result.success) errors.push(...formatIssues("query", result.error.issues));
-      // Express types req.query as a fixed ParsedQs; cast is safe since result.data is validated.
       else req.query = result.data as typeof req.query;
     }
 

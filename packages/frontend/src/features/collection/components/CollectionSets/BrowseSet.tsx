@@ -14,7 +14,7 @@ export default function BrowseSet({ sets }: BrowseSetProps) {
         <h1 className="text-headline-lg">Collection</h1>
       </div>
       <div className="mb-5.5">
-        <p className="text-headline-lg-sm text-on-background">
+        <p className="text-body-md text-on-surface">
           Pick a set to see the cards you've pulled.
         </p>
       </div>

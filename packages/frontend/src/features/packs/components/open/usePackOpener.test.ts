@@ -10,6 +10,8 @@ function makeCards(count: number): CardSummary[] {
     imageLarge: null,
     imageSmall: null,
     rarity: "Common",
+    tcgplayerMarket: null,
+    cardmarketTrend: null,
     pulledVariant: "normal",
   }));
 }

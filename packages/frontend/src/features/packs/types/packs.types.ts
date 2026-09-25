@@ -6,6 +6,8 @@ export type CardSummary = {
   imageLarge: string | null;
   imageSmall: string | null;
   rarity: string;
+  tcgplayerMarket: number | null;
+  cardmarketTrend: number | null;
   pulledVariant: Variant;
 };
 

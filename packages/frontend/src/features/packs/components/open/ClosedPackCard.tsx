@@ -18,7 +18,7 @@ export default function PackCard({
 }: ClosedPackCardProps) {
   return (
     <div className="flex w-full flex-col items-center justify-center gap-4 px-4 pt-4 pb-8 sm:flex-row sm:flex-nowrap sm:gap-10 sm:px-6 sm:pt-12 sm:pb-10">
-      <div className="flex w-50 aspect-65/81 sm:w-65 flex-none items-center justify-center rounded-lg border border-surface-container-highest bg-surface-container-low shadow-[0_1px_2px_rgba(26,28,28,0.04)]">
+      <div className="flex w-50 aspect-65/81 sm:w-65 flex-none items-center justify-center rounded-lg border border-surface-container-highest bg-on-primary shadow-[0_1px_2px_rgba(26,28,28,0.04)]">
         <img
           src={packImageUrl ?? BasePack}
           alt={setName}
@@ -30,7 +30,7 @@ export default function PackCard({
           Booster Pack
         </p>
         <h1 className="text-headline-lg sm:text-headline-xl text-on-surface">{setName}</h1>
-        <div className="mb-6 flex w-fit max-w-full flex-col gap-2.5 rounded-2xl border border-surface-container-highest bg-surface p-4.5">
+        <div className="mb-6 flex w-fit max-w-full flex-col gap-2.5 rounded-2xl border border-surface-container-highest bg-on-primary p-4.5">
           <p className="text-headline-lg-s text-outline uppercase">
             What's Inside
           </p>
