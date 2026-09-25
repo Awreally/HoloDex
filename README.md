@@ -1,168 +1,214 @@
 # HoloDex
 
-A Pokémon TCG pack-opening and collection app. Open digital packs, build up a
-collection, and track how close you are to completing each set. Card and set data
-comes from the community-run [TCGdex API](https://tcgdex.dev/).
+A full-stack Pokémon TCG pack-opening and collection tracker. Browse playable
+sets, open set-aware booster packs, build a persistent binder, and follow your
+collection's completion and market value from a personal dashboard.
 
-Built as a full-stack learning project — the goal is a real, deployed app with
-authentication, a relational database, and a genuine game loop, not another tutorial clone.
+Card, set, image, and pricing data comes from the community-run
+[TCGdex API](https://tcgdex.dev/).
 
-## Status
+## Current features
 
-The core loop works end-to-end: register or log in, open a pack and get a
-server-side weighted rarity roll, and browse the cards you've collected. Still
-missing: trading, dex-completion tracking, and deployment. See the
-[roadmap](#roadmap) for what's built and what's next.
+- Account registration and login with JWT sessions stored in an HTTP-only cookie
+- Guest pack opening, with pulls saved automatically for signed-in users
+- Server-authoritative, set-specific pack recipes and weighted rarity rolls
+- One-by-one card reveals, an open-all option, and a pack summary
+- Variant-aware collections for normal, reverse-holo, and holo cards
+- Collection browsing by set with completion progress, filtering, sorting, and pagination
+- A trainer dashboard with cards owned, packs opened, collection value, average value per pack, closest sets to completion, rarity breakdown, and recent pulls
+- TCGplayer market and Cardmarket trend prices where TCGdex provides them
+- Responsive desktop and mobile layouts
+
+Trading is represented in the UI but is not implemented yet.
 
 ## Tech stack
 
-- **Frontend:** React, TypeScript, Vite, Tailwind CSS, React Router
-- **Backend:** Node.js, Express, TypeScript
-- **Auth:** JWT sessions in an httpOnly cookie
-- **Database:** PostgreSQL (hosted on [Neon](https://neon.com/))
-- **ORM:** Prisma 7, using the `@prisma/adapter-pg` driver adapter
-- **Card data:** [TCGdex API](https://tcgdex.dev/)
-- **Structure:** monorepo — `packages/backend` and `packages/frontend`
+- **Frontend:** React 19, TypeScript, Vite 8, Tailwind CSS 4, React Router 8
+- **Backend:** Node.js, Express, TypeScript, Zod
+- **Authentication:** JWT, bcrypt, HTTP-only cookies, and rate-limited auth routes
+- **Database:** PostgreSQL with Prisma 7 and the `@prisma/adapter-pg` driver adapter
+- **Testing:** Vitest, Testing Library, and Supertest
+- **Data source:** [TCGdex API](https://tcgdex.dev/)
+- **Structure:** npm workspaces monorepo
 
-## How it works
+## Architecture
 
-A few deliberate architecture choices:
+The browser communicates only with the Express API. The backend owns database
+access, imports data from TCGdex, generates every pack result, and persists pulls
+inside a transaction. Card images remain on TCGdex's CDN; HoloDex stores their
+base URLs rather than image files.
 
-- **The frontend only talks to the backend.** The backend owns the database and
-  is the only thing that calls the TCGdex API — the frontend never touches either directly.
-- **External data is cached in our own database.** Sets are seeded up front; card
-  data is currently seeded per-set with a manual script (`seed-cards.ts`) rather
-  than fetched on demand — on-open lazy caching is still on the roadmap.
-- **Pack opening is server-authoritative** — the server runs the rarity roll and
-  decides what you pull, so the result can't be tampered with from the client.
-- **Card images load directly from TCGdex's CDN.** The database stores image URLs
-  (pointers), not image files.
+Set and card ingestion is currently an explicit seed workflow. Pack recipes are
+defined in code, making pull composition and rarity odds independently testable
+and allowing different TCG eras to use different collation rules.
 
-## Project structure
-
-```
+```text
 HoloDex/
+├─ .env.example
+├─ package.json                 # workspace scripts
 └─ packages/
    ├─ backend/
    │  ├─ prisma/
-   │  │  ├─ migrations/        # database version history
-   │  │  └─ schema.prisma      # the data model
-   │  ├─ prisma.config.ts
+   │  │  ├─ migrations/       # database version history
+   │  │  └─ schema.prisma     # application data model
    │  └─ src/
-   │     ├─ features/          # feature-based modules
-   │     │  ├─ auth/           # register, login, JWT sessions
-   │     │  ├─ sets/           # set listing
-   │     │  ├─ packs/          # pack opening + rarity roll
-   │     │  └─ collection/     # a user's owned cards
-   │     ├─ middleware/        # shared middleware (auth, error handling)
-   │     ├─ lib/               # shared helpers (prisma client)
-   │     ├─ scripts/           # manual scripts (seeding sets/cards)
-   │     └─ index.ts           # app entry point
+   │     ├─ features/          # auth, sets, packs, collection, dashboard
+   │     ├─ middleware/        # auth, validation, rate limiting, errors
+   │     ├─ scripts/           # set, card/price, and pack-image imports
+   │     ├─ app.ts             # Express application
+   │     └─ index.ts           # server entry point
    └─ frontend/
       └─ src/
-         ├─ features/          # feature-based modules (auth, packs, collection)
-         ├─ pages/             # top-level routed pages (dashboard, sets, trade)
-         ├─ components/layout/ # shell UI (top nav, side nav, footer, root layout)
-         ├─ routes/            # react-router route table
-         └─ lib/               # API client, image URL helpers
+         ├─ components/        # shared layout and navigation
+         ├─ context/           # authentication state
+         ├─ features/          # feature-based pages, UI, loaders, and APIs
+         ├─ lib/               # API and image helpers
+         └─ routes/            # React Router configuration
 ```
 
 ## Getting started
 
 ### Prerequisites
 
-- Node.js 18+
-- A free [Neon](https://neon.com/) PostgreSQL database
+- Node.js `^20.19.0` or `>=22.12.0`
+- npm
+- A PostgreSQL database, such as [Neon](https://neon.com/)
 
-### 1. Install
+### 1. Clone and install
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Awreally/HoloDex.git
 cd HoloDex
 npm install
 ```
 
-### 2. Configure environment
+### 2. Configure the backend
 
-Copy `.env.example` to `packages/backend/.env` and fill in your values:
+Copy the example environment file into the backend package:
 
+```bash
+cp .env.example packages/backend/.env
 ```
-DATABASE_URL="postgresql://USER:PASSWORD@YOUR-HOST-pooler.REGION.aws.neon.tech/neondb?sslmode=verify-full&channel_binding=require"
-JWT_SECRET="any long random string"
+
+Then provide at least these values in `packages/backend/.env`:
+
+```dotenv
+DATABASE_URL="postgresql://user:password@host/database?sslmode=require"
+JWT_SECRET="replace-with-a-long-random-secret"
 ```
 
-Use Neon's **pooled** connection string (the hostname contains `-pooler`), and
-`sslmode=verify-full` for a properly verified TLS connection. `JWT_SECRET` signs
-login sessions — the server won't start without it. This file is gitignored —
-never commit it.
+Optional settings and their defaults:
 
-Optional variables (defaults shown):
-
-```
+```dotenv
 PORT=3000
 FRONTEND_URL=http://localhost:5173
 JWT_EXPIRES_IN=7d
 ```
 
-### 3. Set up the database
+If you use Neon, use its pooled connection string. Never commit the completed
+`.env` file.
+
+### 3. Create the database schema
 
 ```bash
 cd packages/backend
-npx prisma generate       # generate the typed Prisma client
-npx prisma migrate dev    # create the tables in your Neon database
+npm run db:generate
+npm run db:migrate
 ```
 
-### 4. Seed the sets
+### 4. Import TCG data
+
+From `packages/backend`, seed the set catalogue, cards and prices, then pack
+artwork:
 
 ```bash
 npx tsx src/scripts/seed-sets.ts
-```
-
-This fetches every Pokémon set (~218) from TCGdex and stores them. Safe to re-run —
-it upserts, so it won't create duplicates. Run it again whenever new sets release.
-
-### 5. Seed cards for at least one set
-
-Sets alone aren't enough to open a pack or build a collection — you need card
-rows too. The script currently seeds a fixed list of sets:
-
-```bash
 npx tsx src/scripts/seed-cards.ts
+npx tsx src/scripts/seed-pack-images.ts
 ```
 
-This seeds `base1`, `base2`, and `sv03.5`. Edit the `SET_IDS` array in
-`src/scripts/seed-cards.ts` to seed different or additional sets.
+The current card and pack-image scripts are configured for Team Rocket
+(`base5`). To import another set, update `SET_IDS` in `seed-cards.ts`, add an
+image mapping in `seed-pack-images.ts`, and ensure the set has a suitable recipe
+in `src/features/packs/recipes/`.
 
-You can browse the seeded data with:
+Finally, make imported sets visible in the application:
 
 ```bash
-npx prisma studio
+npm run db:studio
 ```
 
-### 6. Run the app
+In Prisma Studio, set `Set.playable` to `true` for every set that has cards and
+should appear in HoloDex. The import scripts use upserts and are safe to run
+again when refreshing data.
 
-From the repo root, this starts the backend and frontend together:
+### 5. Start the app
+
+Return to the repository root and launch both workspaces:
 
 ```bash
+cd ../..
 npm run dev
 ```
 
-Backend runs on `http://localhost:3000`, frontend on `http://localhost:5173`.
+- Frontend: [http://localhost:5173](http://localhost:5173)
+- Backend: [http://localhost:3000](http://localhost:3000)
+- Health check: [http://localhost:3000/api/health](http://localhost:3000/api/health)
+
+Vite proxies `/api` requests to the backend during local development.
+
+## Available commands
+
+Run these from the repository root:
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the frontend and backend in watch mode |
+| `npm run build` | Generate Prisma Client and build both workspaces |
+| `npm run lint` | Lint both workspaces |
+| `npm test` | Run all backend and frontend tests once |
+
+Backend database helpers can be run from `packages/backend`:
+
+| Command | Description |
+| --- | --- |
+| `npm run db:generate` | Generate Prisma Client |
+| `npm run db:migrate` | Create and apply a development migration |
+| `npm run db:push` | Push the schema without creating a migration |
+| `npm run db:studio` | Open Prisma Studio |
+
+## API overview
+
+All application endpoints are under `/api/v1` unless noted otherwise.
+
+| Method | Endpoint | Authentication | Purpose |
+| --- | --- | --- | --- |
+| `POST` | `/auth/register` | Public | Create an account and session |
+| `POST` | `/auth/login` | Public | Start a session |
+| `POST` | `/auth/logout` | Public | Clear the session cookie |
+| `GET` | `/auth/me` | Required | Return the current user |
+| `GET` | `/sets` | Public | List playable sets and pack sizes |
+| `POST` | `/sets/:setId/open` | Optional | Open a pack; save it when signed in |
+| `GET` | `/collection/sets` | Required | List collection progress by set |
+| `GET` | `/collection/sets/:setId/cards` | Required | Return a filtered, paginated binder |
+| `GET` | `/dashboard` | Required | Return dashboard statistics |
+| `GET` | `/api/health` | Public | Check API and database health |
 
 ## Roadmap
 
-- [x] Database schema (users, sets, cards, collection)
-- [x] Seed sets from TCGdex
-- [x] Authentication (JWT) + persistent user collections
-- [x] `GET /sets` endpoint + Packs browsing page
-- [x] Pack opening — server-side weighted rarity roll
-- [ ] Lazy card caching (fetch a set's cards on first open, instead of the manual seed script)
-- [ ] Dex completion tracking (owned / total per set)
-- [ ] Filter the collection view by set
-- [ ] Trading between users (atomic swaps)
+- [x] Authentication and persistent user collections
+- [x] Server-authoritative, era-aware pack opening
+- [x] Card variants, set filtering, sorting, and pagination
+- [x] Set completion tracking and dashboard analytics
+- [x] Collection pricing and pack-opening history
+- [ ] Trading between users with atomic swaps
+- [ ] Automated card ingestion and price refreshes
+- [ ] Admin tooling for playable sets, pack artwork, and recipes
 - [ ] Docker, CI/CD, and cloud deployment
 
 ## Acknowledgements
 
-Card and set data provided by the [TCGdex API](https://tcgdex.dev/). This project
-is not produced, endorsed, supported, or affiliated with Nintendo or The Pokémon Company.
+Card, set, image, and pricing data is provided by the
+[TCGdex API](https://tcgdex.dev/). HoloDex is an unofficial fan project and is
+not produced, endorsed, supported, or affiliated with Nintendo, Creatures Inc.,
+Game Freak, or The Pokémon Company.
